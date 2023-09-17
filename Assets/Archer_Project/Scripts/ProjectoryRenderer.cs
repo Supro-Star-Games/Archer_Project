@@ -40,7 +40,6 @@ public class ProjectoryRenderer : MonoBehaviour
 				}
 
 				_lineRenderer.enabled = true;
-				Debug.Log("points Length" + points.Length);
 				_lineRenderer.SetPositions(points);
 			}
 		}
