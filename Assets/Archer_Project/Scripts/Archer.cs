@@ -8,6 +8,9 @@ public class Archer : MonoBehaviour
 	[SerializeField] private Transform _fireTransform;
 	[SerializeField] private GameObject _projectile;
 	[SerializeField] private float _fireAngle;
+	[SerializeField] private float _minAngle = -10f;
+	[SerializeField] private float _maxAngle = 15f;
+	[SerializeField] private float _maxDistance = 30f;
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
 	private float _projectileVelocity;
@@ -42,6 +45,7 @@ public class Archer : MonoBehaviour
 		float x = _direction.magnitude;
 		float y = _direction.y;
 
+		_fireAngle = Mathf.Lerp(_minAngle, _maxAngle, x / _maxDistance);
 		float angleToRadians = _fireAngle * Mathf.PI / 180f;
 
 		float v2 = (Physics.gravity.y * x * x) / (2 * (y - Mathf.Tan(angleToRadians) * x) * Mathf.Pow(Mathf.Cos(angleToRadians), 2));
