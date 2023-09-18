@@ -147,3 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 60
+  _velocity: 15
+  Points: []

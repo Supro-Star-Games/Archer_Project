@@ -18,6 +18,7 @@ public class Archer : MonoBehaviour
 	{
 		get { return _fireTransform; }
 	}
+
 	void Start()
 	{
 		//	_fireTransform.eulerAngles = new Vector3(0f, -_fireAngle, 0f);
@@ -49,9 +50,9 @@ public class Archer : MonoBehaviour
 		ProjectileVelocity = _fireTransform.forward * v;
 	}
 
-	public void Shot()
+	public void Shot(Vector3[] _points)
 	{
 		GameObject newProjectile = Instantiate(_projectile, _fireTransform.position, _fireTransform.rotation);
-		newProjectile.GetComponent<Rigidbody>().velocity = _fireTransform.forward * _projectileVelocity;
+		newProjectile.GetComponent<Arrow>().SetPoints(_points);
 	}
 }

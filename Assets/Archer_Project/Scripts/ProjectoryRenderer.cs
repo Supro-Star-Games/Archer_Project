@@ -47,7 +47,7 @@ public class ProjectoryRenderer : MonoBehaviour
 
 		if (Input.GetMouseButtonUp(0))
 		{
-			_archer.Shot();
+			_archer.Shot(points);
 			_lineRenderer.enabled = false;
 		}
 	}
