@@ -13,18 +13,12 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _maxDistance = 30f;
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
-	private float _projectileVelocity;
 
 	public Vector3 ProjectileVelocity { get; set; }
 
 	public Transform FireTransform
 	{
 		get { return _fireTransform; }
-	}
-
-	void Start()
-	{
-		//	_fireTransform.eulerAngles = new Vector3(0f, -_fireAngle, 0f);
 	}
 
 	private void Update()
@@ -50,7 +44,6 @@ public class Archer : MonoBehaviour
 
 		float v2 = (Physics.gravity.y * x * x) / (2 * (y - Mathf.Tan(angleToRadians) * x) * Mathf.Pow(Mathf.Cos(angleToRadians), 2));
 		float v = Mathf.Sqrt(v2);
-		_projectileVelocity = v;
 		ProjectileVelocity = _fireTransform.forward * v;
 	}
 

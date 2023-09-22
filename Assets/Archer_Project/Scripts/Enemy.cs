@@ -2,24 +2,39 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
-	[SerializeField] private Transform _movePoint;
 	[SerializeField] private float _velocity = 1f;
 	[SerializeField] private int hitPoints;
 
+
+	private MeleeAttackPoints _points;
+	private Transform _movePoint;
 	private int currentHP;
 	private Rigidbody _rb;
 	private bool pointIsReached;
+	private bool _attackPositionSeted;
 	private Vector3 currentMovePoint;
+
+	public event UnityAction OnEnemyDeath;
+
+	public Transform MovePoint
+	{
+		set { _movePoint = value; }
+		get { return _movePoint; }
+	}
+
+	public bool IsDead { get; set; }
 
 	// Start is called before the first frame update
 	void Start()
 	{
+		_points = FindObjectOfType<MeleeAttackPoints>();
 		_rb = GetComponent<Rigidbody>();
-		currentMovePoint = _movePoint.position;
 		currentHP = hitPoints;
+		currentMovePoint = _movePoint.position;
 	}
 
 	// Update is called once per frame
@@ -35,15 +50,34 @@ public class Enemy : MonoBehaviour
 
 	void Move()
 	{
-		Vector3 direction = _movePoint.position - transform.position;
+		Vector3 direction = currentMovePoint - transform.position;
 		_rb.velocity = direction.normalized * _velocity;
 		Vector3 directionXZ = new Vector3(direction.x, 0f, direction.z);
 		_rb.rotation = Quaternion.LookRotation(directionXZ);
 		float distance = Vector3.Distance(transform.position, currentMovePoint);
-		if (distance < 1f)
+		if (distance < 0.4f)
 		{
-			_rb.velocity = direction.normalized * distance;
+			//_rb.velocity = direction.normalized * distance;
+			_rb.velocity = Vector3.zero;
 			pointIsReached = true;
+			if (_attackPositionSeted)
+			{
+				_rb.rotation = Quaternion.LookRotation(Vector3.forward);
+			}
+		}
+
+		if (pointIsReached && !_attackPositionSeted)
+		{
+			foreach (var _point in _points.AttackPoints)
+			{
+				if (!_point.IsBusy)
+				{
+					currentMovePoint = _point.transform.position;
+					_point.IsBusy = true;
+					_attackPositionSeted = true;
+					break;
+				}
+			}
 		}
 	}
 
@@ -54,6 +88,7 @@ public class Enemy : MonoBehaviour
 
 	public void Death()
 	{
+		OnEnemyDeath?.Invoke();
 		Destroy(gameObject);
 	}
 }

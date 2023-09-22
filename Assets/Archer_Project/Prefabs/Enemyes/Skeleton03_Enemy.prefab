@@ -12,6 +12,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton03_Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3163385749019087749, guid: 3d86d0ebec5fff14ca0430e78800bbb9, type: 3}
+      propertyPath: m_CenterOfMass.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329016118788040749, guid: 3d86d0ebec5fff14ca0430e78800bbb9, type: 3}
+      propertyPath: _velocity
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6190679108334375216, guid: 3d86d0ebec5fff14ca0430e78800bbb9, type: 3}
       propertyPath: m_Center.y
       value: 1.22
