@@ -18,12 +18,17 @@ public class AttackPoint : MonoBehaviour
 	private void RevealPoint()
 	{
 		isBusy = false;
-		_enemy.OnEnemyDeath -= RevealPoint;
+		if (_enemy != null)
+		{
+			_enemy.OnEnemyDeath -= RevealPoint;
+		}
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		_enemy = other.GetComponent<Enemy>();
-		_enemy.OnEnemyDeath += RevealPoint;
+		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
+		{
+			_enemy.OnEnemyDeath += RevealPoint;
+		}
 	}
 }
