@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 {
 	[SerializeField] private float _velocity = 1f;
 	[SerializeField] private int hitPoints;
+	[SerializeField] private bool isRangeEnemy;
 
 
 	private MeleeAttackPoints _points;
@@ -26,12 +27,21 @@ public class Enemy : MonoBehaviour
 		get { return _movePoint; }
 	}
 
-	public bool IsDead { get; set; }
+	public bool IsRangeEnemy => IsRangeEnemy;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		_points = FindObjectOfType<MeleeAttackPoints>();
+		if (isRangeEnemy)
+		{
+			Debug.Log("isRange Enemy");
+			_points = GameObject.FindGameObjectWithTag("RangeAttackPoints").GetComponent<RangeAttackPoints>();
+		}
+		else
+		{
+			_points = GameObject.FindGameObjectWithTag("MeleeAtackPoints").GetComponent<MeleeAttackPoints>();
+		}
+
 		_rb = GetComponent<Rigidbody>();
 		currentHP = hitPoints;
 		currentMovePoint = _movePoint.position;
