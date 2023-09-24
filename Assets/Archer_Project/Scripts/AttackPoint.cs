@@ -6,7 +6,7 @@ using UnityEngine;
 public class AttackPoint : MonoBehaviour
 {
 	private bool isBusy = false;
-	private Enemy _enemy;
+	private Enemy enemy;
 
 	public bool IsBusy
 	{
@@ -18,17 +18,15 @@ public class AttackPoint : MonoBehaviour
 	private void RevealPoint()
 	{
 		isBusy = false;
-		if (_enemy != null)
-		{
-			_enemy.OnEnemyDeath -= RevealPoint;
-		}
+		enemy.OnEnemyDeath -= RevealPoint;
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
-			_enemy.OnEnemyDeath += RevealPoint;
+			enemy = _enemy;
+			enemy.OnEnemyDeath += RevealPoint;
 		}
 	}
 }

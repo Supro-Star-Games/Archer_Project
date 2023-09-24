@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5719288726741531079}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallAtack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5482076448233640014}
   - component: {fileID: 2033271962123022560}
   - component: {fileID: 1291184515116887900}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -99,6 +99,6 @@ public class Enemy : MonoBehaviour
 	public void Death()
 	{
 		OnEnemyDeath?.Invoke();
-		Destroy(gameObject);
+		Destroy(gameObject, 0.2f);
 	}
 }

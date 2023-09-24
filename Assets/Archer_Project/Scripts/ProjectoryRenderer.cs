@@ -7,7 +7,9 @@ public class ProjectoryRenderer : MonoBehaviour
 {
 	[SerializeField] private LayerMask _rayMask;
 	[SerializeField] private Archer _archer;
+	[SerializeField] private float _disabledRadius;
 	private LineRenderer _lineRenderer;
+	private Vector3 distanceToArcher;
 	Vector3[] points = new Vector3[100];
 
 
@@ -30,6 +32,13 @@ public class ProjectoryRenderer : MonoBehaviour
 			if (Physics.Raycast(mouseRay, out _hit, 100f, _rayMask))
 			{
 				MousePoint = _hit.point;
+				distanceToArcher = _hit.point - _archer.transform.position;
+				if (distanceToArcher.magnitude < _disabledRadius)
+				{
+					_lineRenderer.enabled = false;
+					return;
+				}
+
 				_archer.RotateArcher(_hit.point);
 				_archer.CalcuateVelocity();
 
@@ -47,6 +56,12 @@ public class ProjectoryRenderer : MonoBehaviour
 
 		if (Input.GetMouseButtonUp(0))
 		{
+			if (distanceToArcher.magnitude < _disabledRadius)
+			{
+				_lineRenderer.enabled = false;
+				return;
+			}
+
 			_archer.Shot(points);
 			_lineRenderer.enabled = false;
 		}
