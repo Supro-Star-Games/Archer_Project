@@ -36,7 +36,8 @@ public class Archer : MonoBehaviour
 
 	public void CalcuateVelocity()
 	{
-		float x = _direction.magnitude;
+		//	float x = _direction.magnitude;
+		float x = _directionXZ.magnitude;
 		float y = _direction.y;
 
 		_fireAngle = Mathf.Lerp(_minAngle, _maxAngle, x / _maxDistance);

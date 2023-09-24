@@ -13,7 +13,7 @@ public class ProjectoryRenderer : MonoBehaviour
 	Vector3[] points = new Vector3[100];
 
 
-	public Vector3 MousePoint { get; private set; }
+	public Vector3 TargetPoint { get; private set; }
 
 	// Start is called before the first frame update
 	void Start()
@@ -26,12 +26,12 @@ public class ProjectoryRenderer : MonoBehaviour
 	{
 		if (Input.GetMouseButton(0))
 		{
-			Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+			Ray mouseRay = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y + 50f));
 			RaycastHit _hit;
 
 			if (Physics.Raycast(mouseRay, out _hit, 100f, _rayMask))
 			{
-				MousePoint = _hit.point;
+				TargetPoint = _hit.point;
 				distanceToArcher = _hit.point - _archer.transform.position;
 				if (distanceToArcher.magnitude < _disabledRadius)
 				{
@@ -39,7 +39,7 @@ public class ProjectoryRenderer : MonoBehaviour
 					return;
 				}
 
-				_archer.RotateArcher(_hit.point);
+				_archer.RotateArcher(TargetPoint);
 				_archer.CalcuateVelocity();
 
 				for (int i = 0; i < points.Length; i++)
