@@ -10,9 +10,11 @@ public class ProjectoryRenderer : MonoBehaviour
 	[SerializeField] private Archer _archer;
 	[SerializeField] private float _disabledRadius;
 	[SerializeField] private float mouseYOffset = 70f;
+	[SerializeField] private GameObject _targetrpefab;
 	private LineRenderer _lineRenderer;
 	private Vector3 distanceToArcher;
 	Vector3[] points = new Vector3[100];
+	private GameObject _uiTarget;
 
 
 	public Vector3 TargetPoint { get; private set; }
@@ -33,6 +35,12 @@ public class ProjectoryRenderer : MonoBehaviour
 			if (Physics.Raycast(mouseRay, out _hit, 100f, _rayMask))
 			{
 				TargetPoint = _hit.point;
+				if (_uiTarget == null)
+				{
+					_uiTarget = Instantiate(_targetrpefab, _hit.point, Quaternion.identity);
+				}
+
+				_uiTarget.transform.position = _hit.point;
 				Vector3 archerPointXZ = new Vector3(_archer.transform.position.x, 0f, _archer.transform.position.z);
 				//	distanceToArcher = _hit.point - _archer.transform.position;
 				distanceToArcher = _hit.point - archerPointXZ;
@@ -66,6 +74,8 @@ public class ProjectoryRenderer : MonoBehaviour
 			}
 
 			_archer.Shot(points);
+			Destroy(_uiTarget.gameObject);
+			_uiTarget = null;
 			_lineRenderer.enabled = false;
 		}
 	}
