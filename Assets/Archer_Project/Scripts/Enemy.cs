@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
 {
 	[SerializeField] private float _velocity = 1f;
 	[SerializeField] private int hitPoints;
+	[SerializeField] private float damage;
+	[SerializeField] private float attackDelay;
 	[SerializeField] private bool isRangeEnemy;
 
 
@@ -18,6 +20,9 @@ public class Enemy : MonoBehaviour
 	private bool pointIsReached;
 	private bool _attackPositionSeted;
 	private Vector3 currentMovePoint;
+	private Fence _fence;
+	private bool isOnAttackPoint;
+	private float time;
 
 	public event UnityAction OnEnemyDeath;
 
@@ -27,6 +32,12 @@ public class Enemy : MonoBehaviour
 		get { return _movePoint; }
 	}
 
+	public bool IsOnAttackPoint
+	{
+		get { return isOnAttackPoint; }
+		set { isOnAttackPoint = value; }
+	}
+
 	public bool IsRangeEnemy => IsRangeEnemy;
 
 	// Start is called before the first frame update
@@ -34,7 +45,6 @@ public class Enemy : MonoBehaviour
 	{
 		if (isRangeEnemy)
 		{
-			Debug.Log("isRange Enemy");
 			_points = GameObject.FindGameObjectWithTag("RangeAttackPoints").GetComponent<RangeAttackPoints>();
 		}
 		else
@@ -42,6 +52,7 @@ public class Enemy : MonoBehaviour
 			_points = GameObject.FindGameObjectWithTag("MeleeAtackPoints").GetComponent<MeleeAttackPoints>();
 		}
 
+		_fence = FindObjectOfType<Fence>();
 		_rb = GetComponent<Rigidbody>();
 		currentHP = hitPoints;
 		currentMovePoint = _movePoint.position;
@@ -51,6 +62,7 @@ public class Enemy : MonoBehaviour
 	private void FixedUpdate()
 	{
 		Move();
+		Attack();
 
 		if (currentHP <= 0)
 		{
@@ -87,6 +99,19 @@ public class Enemy : MonoBehaviour
 					_attackPositionSeted = true;
 					break;
 				}
+			}
+		}
+	}
+
+	public void Attack()
+	{
+		if (IsOnAttackPoint)
+		{
+			time += Time.deltaTime;
+			if (time > attackDelay)
+			{
+				_fence.TakeDamege(damage);
+				time = 0f;
 			}
 		}
 	}

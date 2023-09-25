@@ -49,6 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _velocity: 3
   hitPoints: 200
+  damage: 50
+  attackDelay: 3
+  isRangeEnemy: 0
 --- !u!54 &7254065984523396841
 Rigidbody:
   m_ObjectHideFlags: 0

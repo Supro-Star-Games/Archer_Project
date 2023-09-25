@@ -26,6 +26,7 @@ public class AttackPoint : MonoBehaviour
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
 			enemy = _enemy;
+			enemy.IsOnAttackPoint = true;
 			enemy.OnEnemyDeath += RevealPoint;
 		}
 	}
