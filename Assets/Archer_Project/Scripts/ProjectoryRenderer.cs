@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,6 +9,7 @@ public class ProjectoryRenderer : MonoBehaviour
 	[SerializeField] private LayerMask _rayMask;
 	[SerializeField] private Archer _archer;
 	[SerializeField] private float _disabledRadius;
+	[SerializeField] private float mouseYOffset = 70f;
 	private LineRenderer _lineRenderer;
 	private Vector3 distanceToArcher;
 	Vector3[] points = new Vector3[100];
@@ -26,13 +28,14 @@ public class ProjectoryRenderer : MonoBehaviour
 	{
 		if (Input.GetMouseButton(0))
 		{
-			Ray mouseRay = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y + 50f));
+			Ray mouseRay = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y + mouseYOffset));
 			RaycastHit _hit;
-
 			if (Physics.Raycast(mouseRay, out _hit, 100f, _rayMask))
 			{
 				TargetPoint = _hit.point;
-				distanceToArcher = _hit.point - _archer.transform.position;
+				Vector3 archerPointXZ = new Vector3(_archer.transform.position.x, 0f, _archer.transform.position.z);
+				//	distanceToArcher = _hit.point - _archer.transform.position;
+				distanceToArcher = _hit.point - archerPointXZ;
 				if (distanceToArcher.magnitude < _disabledRadius)
 				{
 					_lineRenderer.enabled = false;

@@ -28,7 +28,7 @@ public class Archer : MonoBehaviour
 
 	public void RotateArcher(Vector3 _mousePos)
 	{
-		_direction = _mousePos - transform.position;
+		_direction = _mousePos - _fireTransform.position;
 		_directionXZ = new Vector3(_direction.x, 0, _direction.z);
 
 		transform.rotation = Quaternion.LookRotation(_directionXZ);
