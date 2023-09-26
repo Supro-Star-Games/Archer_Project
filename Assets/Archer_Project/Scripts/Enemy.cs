@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
 	private Fence _fence;
 	private bool isOnAttackPoint;
 	private float time;
+	private Archer _archer;
+	private AttackPoint closestPoint;
 
 	public event UnityAction OnEnemyDeath;
 
@@ -52,6 +54,7 @@ public class Enemy : MonoBehaviour
 			_points = GameObject.FindGameObjectWithTag("MeleeAtackPoints").GetComponent<MeleeAttackPoints>();
 		}
 
+		_archer = FindObjectOfType<Archer>();
 		_fence = FindObjectOfType<Fence>();
 		_rb = GetComponent<Rigidbody>();
 		currentHP = hitPoints;
@@ -90,16 +93,25 @@ public class Enemy : MonoBehaviour
 
 		if (pointIsReached && !_attackPositionSeted)
 		{
+			float closestDistance = 500f;
 			foreach (var _point in _points.AttackPoints)
 			{
 				if (!_point.IsBusy)
 				{
-					currentMovePoint = _point.transform.position;
-					_point.IsBusy = true;
-					_attackPositionSeted = true;
-					break;
+					float pointToDistance = Vector3.Distance(transform.position, _point.transform.position);
+					if (pointToDistance < closestDistance)
+					{
+						closestPoint = _point;
+						closestDistance = pointToDistance;
+					}
+					//	_point.IsBusy = true;
+					//	break;
 				}
 			}
+
+			closestPoint.IsBusy = true;
+			_attackPositionSeted = true;
+			currentMovePoint = closestPoint.transform.position;
 		}
 	}
 
@@ -108,10 +120,18 @@ public class Enemy : MonoBehaviour
 		if (IsOnAttackPoint)
 		{
 			time += Time.deltaTime;
-			if (time > attackDelay)
+			if (isRangeEnemy && time > attackDelay)
 			{
-				_fence.TakeDamege(damage);
+				_archer.TakeDamage(damage);
 				time = 0f;
+			}
+			else
+			{
+				if (time > attackDelay)
+				{
+					_fence.TakeDamege(damage);
+					time = 0f;
+				}
 			}
 		}
 	}

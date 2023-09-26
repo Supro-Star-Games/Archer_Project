@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Fence : MonoBehaviour
 {
 	[SerializeField] private float _durability = 500;
-	[SerializeField] private CastleUI _castleUI;
 	private float currentDurability;
+
+	public event UnityAction<float> FenceDamaged;
 
 	// Start is called before the first frame update
 	private void Awake()
@@ -22,9 +24,8 @@ public class Fence : MonoBehaviour
 			return;
 		}
 
-		Debug.Log("Drability is" + currentDurability);
 		currentDurability -= _damage;
-		Debug.Log("castle damage" + _damage / (_durability / 100f));
-		_castleUI.TakeDamage(_damage / (_durability / 100f));
+		//_castleUI.TakeDamage(_damage / (_durability / 100f));
+		FenceDamaged?.Invoke(_damage / (_durability / 100f));
 	}
 }

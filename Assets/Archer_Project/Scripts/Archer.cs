@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Archer : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _minAngle = -10f;
 	[SerializeField] private float _maxAngle = 15f;
 	[SerializeField] private float _maxDistance = 30f;
+	[SerializeField] private float _healthPoints = 100f;
+
+	public event UnityAction<float> ArcherDamaged; 
+
+	private float _currentHP;
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
 
@@ -20,7 +26,7 @@ public class Archer : MonoBehaviour
 	{
 		get { return _fireTransform; }
 	}
-
+    
 	private void Update()
 	{
 		_fireTransform.localEulerAngles = new Vector3(-_fireAngle, 0f, 0f);
@@ -52,5 +58,11 @@ public class Archer : MonoBehaviour
 	{
 		GameObject newProjectile = Instantiate(_projectile, _fireTransform.position, _fireTransform.rotation);
 		newProjectile.GetComponent<Arrow>().SetPoints(_points);
+	}
+
+	public void TakeDamage(float damage)
+	{
+		ArcherDamaged?.Invoke(damage / (_healthPoints / 100f));
+		_currentHP -= damage;
 	}
 }

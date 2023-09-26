@@ -7,11 +7,21 @@ using UnityEngine.UI;
 public class CastleUI : MonoBehaviour
 {
 	[SerializeField] private Slider _slider;
-
+	private Fence _fence;
 
 	private void Awake()
 	{
-		//	_slider = GetComponent<Slider>();
+		_fence = FindObjectOfType<Fence>();
+	}
+
+	private void OnEnable()
+	{
+		_fence.FenceDamaged += TakeDamage;
+	}
+
+	private void OnDisable()
+	{
+		_fence.FenceDamaged -= TakeDamage;
 	}
 
 	// Update is called once per frame
