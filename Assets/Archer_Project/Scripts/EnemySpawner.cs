@@ -4,34 +4,28 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-	[SerializeField] private float _spawnDelay;
-	[SerializeField] private List<Enemy> _enemies = new List<Enemy>();
 	[SerializeField] private Transform _enemyLineTarget;
+	private List<Enemy> _enemies = new List<Enemy>();
 
 	private int currentEnemyCount = 0;
 
-	private float _timeFromLastSpawn;
 
-	// Start is called before the first frame update
-	void Start()
+	public List<Enemy> Enemies
 	{
-		_timeFromLastSpawn = _spawnDelay;
+		get { return _enemies; }
+		set { _enemies = value; }
 	}
 
-	void Update()
+
+	public void SpawnEnemy()
 	{
-		if (currentEnemyCount == _enemies.Count - 1)
+		if (currentEnemyCount >= _enemies.Count - 1)
 		{
 			return;
 		}
 
-		_timeFromLastSpawn += Time.deltaTime;
-		if (_timeFromLastSpawn >= _spawnDelay)
-		{
-			Enemy _newEnemy = Instantiate(_enemies[currentEnemyCount], transform.position, transform.rotation);
-			_newEnemy.MovePoint = _enemyLineTarget;
-			currentEnemyCount++;
-			_timeFromLastSpawn = 0;
-		}
+		Enemy _newEnemy = Instantiate(_enemies[currentEnemyCount], transform.position, transform.rotation);
+		_newEnemy.MovePoint = _enemyLineTarget;
+		currentEnemyCount++;
 	}
 }

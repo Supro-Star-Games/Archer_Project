@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private float damage;
 	[SerializeField] private float attackDelay;
 	[SerializeField] private bool isRangeEnemy;
+	[SerializeField] private int spawnCost;
 
 
 	private MeleeAttackPoints _points;
@@ -40,7 +41,8 @@ public class Enemy : MonoBehaviour
 		set { isOnAttackPoint = value; }
 	}
 
-	public bool IsRangeEnemy => IsRangeEnemy;
+	public bool IsRangeEnemy => isRangeEnemy;
+	public int SpawnCost => spawnCost;
 
 	// Start is called before the first frame update
 	void Start()
@@ -107,6 +109,11 @@ public class Enemy : MonoBehaviour
 					//	_point.IsBusy = true;
 					//	break;
 				}
+			}
+
+			if (closestPoint == null)
+			{
+				return;
 			}
 
 			closestPoint.IsBusy = true;
