@@ -6,12 +6,30 @@ using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
-	[SerializeField] private float _velocity = 1f;
+	[Header("Base Сharacteristics")] [SerializeField]
+	private float _velocity = 1f;
+
 	[SerializeField] private int hitPoints;
 	[SerializeField] private float damage;
 	[SerializeField] private float attackDelay;
 	[SerializeField] private bool isRangeEnemy;
 	[SerializeField] private int spawnCost;
+	[SerializeField] private float headDamageMult;
+	[SerializeField] private float expForKill;
+
+	[Header("Protective effects")] [SerializeField]
+	private float magickShield;
+
+	[SerializeField] private float fireProtection;
+	[SerializeField] private float iceProtection;
+	[SerializeField] private float poisonProtection;
+
+	[Header("Attack effects")] [SerializeField]
+	private float magickAttack;
+
+	[SerializeField] private float fireAttack;
+	[SerializeField] private float iceAttack;
+	[SerializeField] private float poisonAttack;
 
 
 	private MeleeAttackPoints _points;

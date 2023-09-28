@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82aa130d602fef4da1c9784310a0789, type: 3}
+  m_Name: BonusFireDamage
+  m_EditorClassIdentifier: 
+  _perkIcon: {fileID: 0}
+  _perkName: 
+  _perkDescription: 
+  _hpBonus: 0
+  _arrowSpeedBonus: 0
+  _attackSpeedBonus: 0
+  physicsDamage: 0
+  _fireDamage: 0
+  _iceDamage: 0
+  _poisonDamage: 0
+  _magickDamage: 0
+  _magickShiled: 0
+  _fireProtection: 0
+  _iceProtection: 0
+  _poisonProtection: 0

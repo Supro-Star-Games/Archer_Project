@@ -13,7 +13,22 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _maxAngle = 15f;
 	[SerializeField] private float _maxDistance = 30f;
 	[SerializeField] private float _healthPoints = 100f;
+	[SerializeField] private float _arrowSpeed;
+	
+	[Header("Bonus Damage")] [SerializeField]
+	private float physicsDamage;
 
+	[SerializeField] private float _fireDamage;
+	[SerializeField] private float _iceDamage;
+	[SerializeField] private float _poisonDamage;
+	[SerializeField] private float _magickDamage;
+	
+	[Header("Bonus Protection")] [SerializeField]
+	private float _magickShiled;
+
+	[SerializeField] private float _fireProtection;
+	[SerializeField] private float _iceProtection;
+	[SerializeField] private float _poisonProtection;
 	public event UnityAction<float> ArcherDamaged; 
 
 	private float _currentHP;
