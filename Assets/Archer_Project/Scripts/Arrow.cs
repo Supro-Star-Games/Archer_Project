@@ -6,15 +6,20 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-	[SerializeField] private int damage;
-	[SerializeField] private float _velocity;
-
-
+	private float _velocity;
 	private int _currentPoint;
 	private Rigidbody _rb;
 	private bool isHit;
+	
+	public float PhDamage { get; set; }
+	public float FDamage { get; set; }
+	public float PDamage { get; set; }
+	public float EDamage { get; set; }
+	public float IDamage { get; set; }
+
 
 	private List<Vector3> _movePoints = new List<Vector3>();
+
 
 	private void Start()
 	{
@@ -42,12 +47,21 @@ public class Arrow : MonoBehaviour
 		}
 	}
 
+	public void SetArrow(float physicsDamage, float fireDamage, float iceDamage, float poisonDamage, float electricDamage,float speed)
+	{
+		PhDamage = physicsDamage;
+		FDamage = fireDamage;
+		IDamage = iceDamage;
+		PDamage = poisonDamage;
+		EDamage = electricDamage;
+		_velocity = speed;
+	}
 	// Start is called before the first frame update
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
-			_enemy.TakeDamage(damage);
+			_enemy.TakeDamage(PhDamage,FDamage,IDamage,PDamage,EDamage);
 			GetComponent<Rigidbody>().isKinematic = true;
 			GetComponent<Collider>().enabled = false;
 			gameObject.transform.SetParent(_enemy.transform);

@@ -13,27 +13,60 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _maxAngle = 15f;
 	[SerializeField] private float _maxDistance = 30f;
 	[SerializeField] private float _healthPoints = 100f;
-	[SerializeField] private float _arrowSpeed;
-	
+	[SerializeField] private float _arrowSpeed = 5f;
+
 	[Header("Bonus Damage")] [SerializeField]
-	private float physicsDamage;
+	private float _physicsDamage;
 
 	[SerializeField] private float _fireDamage;
 	[SerializeField] private float _iceDamage;
 	[SerializeField] private float _poisonDamage;
-	[SerializeField] private float _magickDamage;
-	
+	[SerializeField] private float _electricDamage;
+
+	public float PhysicsDamage
+	{
+		get { return _physicsDamage; }
+		set { _physicsDamage = value; }
+	}
+
+	public float FireDamage
+	{
+		get { return _fireDamage; }
+		set { _fireDamage = value; }
+	}
+
+	public float IceDamage
+	{
+		get { return _iceDamage; }
+		set { _iceDamage = value; }
+	}
+
+	public float PoisonDamage
+	{
+		get { return _poisonDamage; }
+		set { _poisonDamage = value; }
+	}
+
+	public float ElectricDamage
+	{
+		get { return _electricDamage; }
+		set { _electricDamage = value; }
+	}
+
 	[Header("Bonus Protection")] [SerializeField]
 	private float _magickShiled;
 
 	[SerializeField] private float _fireProtection;
 	[SerializeField] private float _iceProtection;
 	[SerializeField] private float _poisonProtection;
-	public event UnityAction<float> ArcherDamaged; 
+	public event UnityAction<float> ArcherDamaged;
 
 	private float _currentHP;
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
+
+	[SerializeField] private List<Perk> _learnedPerks;
+	private List<Perk> _applyedPerks = new List<Perk>();
 
 	public Vector3 ProjectileVelocity { get; set; }
 
@@ -41,7 +74,7 @@ public class Archer : MonoBehaviour
 	{
 		get { return _fireTransform; }
 	}
-    
+
 	private void Update()
 	{
 		_fireTransform.localEulerAngles = new Vector3(-_fireAngle, 0f, 0f);
@@ -53,6 +86,27 @@ public class Archer : MonoBehaviour
 		_directionXZ = new Vector3(_direction.x, 0, _direction.z);
 
 		transform.rotation = Quaternion.LookRotation(_directionXZ);
+	}
+
+	public void ApplyPerks()
+	{
+		foreach (var _perk in _learnedPerks)
+		{
+			if (_perk.Initilize(this))
+			{
+				_applyedPerks.Add(_perk);
+			}
+		}
+	}
+
+	public void RemovePerks()
+	{
+		foreach (var perk in _applyedPerks)
+		{
+			perk.DeInitilize(this);
+		}
+
+		_applyedPerks.Clear();
 	}
 
 	public void CalcuateVelocity()
@@ -72,7 +126,10 @@ public class Archer : MonoBehaviour
 	public void Shot(Vector3[] _points)
 	{
 		GameObject newProjectile = Instantiate(_projectile, _fireTransform.position, _fireTransform.rotation);
-		newProjectile.GetComponent<Arrow>().SetPoints(_points);
+		Arrow newArrow = newProjectile.GetComponent<Arrow>();
+		newArrow.SetArrow(_physicsDamage, _fireDamage, _iceDamage, _poisonDamage, _electricDamage, _arrowSpeed);
+		newArrow.SetPoints(_points);
+		RemovePerks();
 	}
 
 	public void TakeDamage(float damage)

@@ -20,21 +20,24 @@ public class Enemy : MonoBehaviour
 	[Header("Protective effects")] [SerializeField]
 	private float magickShield;
 
+	[SerializeField] private float physicsProtection;
 	[SerializeField] private float fireProtection;
 	[SerializeField] private float iceProtection;
 	[SerializeField] private float poisonProtection;
+	[SerializeField] private float electricProtection;
 
 	[Header("Attack effects")] [SerializeField]
-	private float magickAttack;
+	private float physicAttack;
 
 	[SerializeField] private float fireAttack;
 	[SerializeField] private float iceAttack;
 	[SerializeField] private float poisonAttack;
+	[SerializeField] private float electricAttack;
 
 
 	private MeleeAttackPoints _points;
 	private Transform _movePoint;
-	private int currentHP;
+	private float currentHP;
 	private Rigidbody _rb;
 	private bool pointIsReached;
 	private bool _attackPositionSeted;
@@ -46,6 +49,7 @@ public class Enemy : MonoBehaviour
 	private AttackPoint closestPoint;
 
 	public event UnityAction OnEnemyDeath;
+	public event UnityAction<float> OnDamage;
 
 	public Transform MovePoint
 	{
@@ -161,9 +165,45 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-	public void TakeDamage(int damage)
+	public void TakeDamage(float physicsDamage, float fireDamage, float iceDamage, float poisonDamage, float electricDamage)
 	{
-		currentHP -= damage;
+		float _phDamage = 0f;
+		float _fDamage = 0f;
+		float _iDamage = 0f;
+		float _pDamage = 0f;
+		float _eDamage = 0f;
+		float hpBeforeAttack = currentHP;
+		if (physicsProtection < physicsDamage)
+		{
+			_phDamage = physicsProtection - physicsDamage;
+			currentHP += _phDamage;
+		}
+
+		if (iceProtection < iceDamage)
+		{
+			_iDamage = iceProtection - iceDamage;
+			currentHP += _iDamage;
+		}
+
+		if (fireProtection < fireDamage)
+		{
+			_fDamage = fireProtection - fireDamage;
+			currentHP += _fDamage;
+		}
+
+		if (physicsProtection < poisonDamage)
+		{
+			_pDamage = poisonProtection - poisonDamage;
+			currentHP += _pDamage;
+		}
+
+		if (electricProtection < electricDamage)
+		{
+			_eDamage = electricProtection - electricDamage;
+			currentHP += _eDamage;
+		}
+
+		OnDamage?.Invoke(hpBeforeAttack - currentHP);
 	}
 
 	public void Death()

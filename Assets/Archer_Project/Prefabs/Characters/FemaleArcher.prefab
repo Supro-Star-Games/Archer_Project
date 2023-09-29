@@ -49,6 +49,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fireTransform: {fileID: 6309738828285910603}
   _projectile: {fileID: 3190974491369537821, guid: 175988ef087b202419c9010f2d3365a0, type: 3}
+  _fireAngle: 0
+  _minAngle: -10
+  _maxAngle: 15
+  _maxDistance: 30
+  _healthPoints: 100
+  _arrowSpeed: 5
+  _physicsDamage: 0
+  _fireDamage: 0
+  _iceDamage: 0
+  _poisonDamage: 0
+  _electricDamage: 0
+  _magickShiled: 0
+  _fireProtection: 0
+  _iceProtection: 0
+  _poisonProtection: 0
+  _learnedPerks: []
 --- !u!114 &2933326986408762501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,6 +77,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5b13ca646f8ae49a512f36ec8eecd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rayMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _archer: {fileID: 0}
+  _disabledRadius: 0
+  mouseYOffset: 70
+  _targetPrefab: {fileID: 0}
 --- !u!1 &7018666306929795702
 GameObject:
   m_ObjectHideFlags: 0

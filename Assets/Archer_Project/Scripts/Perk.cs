@@ -19,12 +19,12 @@ public class Perk : ScriptableObject
 
 
 	[Header("Bonus Damage")] [SerializeField]
-	private float physicsDamage;
+	private float _physicsDamage;
 
 	[SerializeField] private float _fireDamage;
 	[SerializeField] private float _iceDamage;
 	[SerializeField] private float _poisonDamage;
-	[SerializeField] private float _magickDamage;
+	[SerializeField] private float _electricDamage;
 
 	[Header("Bonus Protection")] [SerializeField]
 	private float _magickShiled;
@@ -33,7 +33,27 @@ public class Perk : ScriptableObject
 	[SerializeField] private float _iceProtection;
 	[SerializeField] private float _poisonProtection;
 
-	public void Initilize(Archer _archer)
+	public bool Initilize(Archer _archer)
 	{
+		if (UnityEngine.Random.Range(0.0f, 100.0f) <= chanceToProke)
+		{
+			_archer.PhysicsDamage += _physicsDamage;
+			_archer.FireDamage += _fireDamage;
+			_archer.IceDamage += _iceDamage;
+			_archer.PoisonDamage += _poisonDamage;
+			_archer.ElectricDamage += _electricDamage;
+			return true;
+		}
+
+		return false;
+	}
+
+	public void DeInitilize(Archer _archer)
+	{
+		_archer.PhysicsDamage -= _physicsDamage;
+		_archer.FireDamage -= _fireDamage;
+		_archer.IceDamage -= _iceDamage;
+		_archer.PoisonDamage -= _poisonDamage;
+		_archer.ElectricDamage -= _electricDamage;
 	}
 }

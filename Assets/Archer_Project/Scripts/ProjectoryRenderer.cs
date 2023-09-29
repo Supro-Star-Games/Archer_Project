@@ -10,22 +10,20 @@ public class ProjectoryRenderer : MonoBehaviour
 	[SerializeField] private Archer _archer;
 	[SerializeField] private float _disabledRadius;
 	[SerializeField] private float mouseYOffset = 70f;
-	[SerializeField] private GameObject _targetrpefab;
+	[SerializeField] private GameObject _targetPrefab;
+
 	private LineRenderer _lineRenderer;
 	private Vector3 distanceToArcher;
-	Vector3[] points = new Vector3[100];
+	private Vector3[] points = new Vector3[100];
 	private GameObject _uiTarget;
-
-
+	private bool isPerksApplyed;
 	public Vector3 TargetPoint { get; private set; }
 
-	// Start is called before the first frame update
 	void Start()
 	{
 		_lineRenderer = GetComponentInChildren<LineRenderer>();
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		if (Input.GetMouseButton(0))
@@ -37,7 +35,7 @@ public class ProjectoryRenderer : MonoBehaviour
 				TargetPoint = _hit.point;
 				if (_uiTarget == null)
 				{
-					_uiTarget = Instantiate(_targetrpefab, _hit.point, Quaternion.identity);
+					_uiTarget = Instantiate(_targetPrefab, _hit.point, Quaternion.identity);
 				}
 
 				_uiTarget.transform.position = _hit.point;
@@ -61,6 +59,12 @@ public class ProjectoryRenderer : MonoBehaviour
 
 				_lineRenderer.enabled = true;
 				_lineRenderer.SetPositions(points);
+
+				if (!isPerksApplyed)
+				{
+					_archer.ApplyPerks();
+					isPerksApplyed = true;
+				}
 			}
 		}
 
@@ -77,6 +81,7 @@ public class ProjectoryRenderer : MonoBehaviour
 			Destroy(_uiTarget.gameObject);
 			_uiTarget = null;
 			_lineRenderer.enabled = false;
+			isPerksApplyed = false;
 		}
 	}
 }
