@@ -16,6 +16,7 @@ MonoBehaviour:
   _perkName: Poison Arrow
   _perkDescription: Make posion effect on target
   isArrowEffect: 1
-  chanceToProke: 40
+  chanceToProke: 80
   _perkEffects:
   - {fileID: 11400000, guid: a565f1f6369075b49a4b0c982ad85578, type: 2}
+  - {fileID: 11400000, guid: ff7860178300c0c47bb787d9a1a6b1ec, type: 2}

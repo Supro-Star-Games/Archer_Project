@@ -205,6 +205,25 @@ public class Enemy : MonoBehaviour
 		OnDamage?.Invoke(hpBeforeAttack - currentHP);
 	}
 
+	public void TakeDebuff(DebuffEffect.Parameter _parameter, float percent)
+	{
+		switch (_parameter)
+		{
+			case DebuffEffect.Parameter.AttackDamage:
+				damage -= (damage / 100) * percent;
+				break;
+			case DebuffEffect.Parameter.AttackSpeed:
+				attackDelay += (attackDelay / 100) * percent;
+				break;
+			case DebuffEffect.Parameter.MoveSpeed:
+				_velocity -= (_velocity / 100) * percent;
+				break;
+			case DebuffEffect.Parameter.PhysicsProtection:
+				physicsProtection -= percent;
+				break;
+		}
+	}
+
 	public void Death()
 	{
 		OnEnemyDeath?.Invoke();
