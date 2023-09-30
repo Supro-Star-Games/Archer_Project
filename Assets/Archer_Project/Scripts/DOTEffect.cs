@@ -18,7 +18,8 @@ public class DOTEffect : PerkEffect
 		Fire = 1,
 		Ice = 2,
 		Poison = 3,
-		Electric = 4
+		Electric = 4,
+		Physics = 5
 	}
 
 	[SerializeField] public DamageType damageType;

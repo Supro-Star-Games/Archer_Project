@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ae7a803ed17e74b943bfaec71bd846, type: 3}
+  m_Name: ElectricArrow
+  m_EditorClassIdentifier: 
+  _perkIcon: {fileID: 0}
+  _perkName: Electric Arrow
+  _perkDescription: Deal random damage
+  isArrowEffect: 1
+  chanceToProke: 50
+  _perkEffects:
+  - {fileID: 11400000, guid: 666633bb9807e4947964441dd2d9435e, type: 2}

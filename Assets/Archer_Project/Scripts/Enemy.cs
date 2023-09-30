@@ -164,45 +164,59 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-	public void TakeDamage(float physicsDamage, float fireDamage, float iceDamage, float poisonDamage, float electricDamage)
+	public void TakeDamage(float _damage, DOTEffect.DamageType _damageType = DOTEffect.DamageType.Physics)
 	{
-		float _phDamage = 0f;
-		float _fDamage = 0f;
-		float _iDamage = 0f;
-		float _pDamage = 0f;
-		float _eDamage = 0f;
-		float hpBeforeAttack = currentHP;
-		if (physicsProtection < physicsDamage)
+		float _Damage = 0f;
+		switch (_damageType)
 		{
-			_phDamage = physicsProtection - physicsDamage;
-			currentHP += _phDamage;
+			case DOTEffect.DamageType.Fire:
+			{
+				if (fireProtection < _damage)
+				{
+					_Damage -= _damage -(_damage / 100) * fireProtection;
+					currentHP += _Damage;
+				}
+				break;
+			}
+			case DOTEffect.DamageType.Ice:
+			{
+				if (iceProtection < _damage)
+				{
+					_Damage -= _damage -(_damage / 100) * iceProtection;
+					currentHP += _Damage;
+				}
+				break;
+			}
+			case DOTEffect.DamageType.Poison:
+			{
+				if (poisonProtection < _damage)
+				{
+					_Damage -= _damage -(_damage / 100) * poisonProtection;
+					currentHP += _Damage;
+				}
+				break;
+			}
+			case DOTEffect.DamageType.Electric:
+			{
+				if (electricProtection < _damage)
+				{
+					_Damage -= _damage -(_damage / 100) * electricProtection;
+					currentHP += _Damage;
+				}
+				break;
+			}
+			case DOTEffect.DamageType.Physics:
+			{
+				if (physicsProtection < _damage)
+				{
+					_Damage -= _damage -(_damage / 100) * physicsProtection;
+					currentHP += _Damage;
+				}
+				break;
+			}
 		}
 
-		if (iceProtection < iceDamage)
-		{
-			_iDamage = iceProtection - iceDamage;
-			currentHP += _iDamage;
-		}
-
-		if (fireProtection < fireDamage)
-		{
-			_fDamage = fireProtection - fireDamage;
-			currentHP += _fDamage;
-		}
-
-		if (physicsProtection < poisonDamage)
-		{
-			_pDamage = poisonProtection - poisonDamage;
-			currentHP += _pDamage;
-		}
-
-		if (electricProtection < electricDamage)
-		{
-			_eDamage = electricProtection - electricDamage;
-			currentHP += _eDamage;
-		}
-
-		OnDamage?.Invoke(hpBeforeAttack - currentHP);
+		OnDamage?.Invoke(Mathf.Abs(_Damage));
 	}
 
 	public void TakeDebuff(DebuffEffect.Parameter _parameter, float percent)

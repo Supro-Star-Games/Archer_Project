@@ -64,10 +64,9 @@ public class Arrow : MonoBehaviour
 	{
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
-			_enemy.TakeDamage(PhDamage, FDamage, IDamage, PDamage, EDamage);
+			_enemy.TakeDamage(PhDamage);
 			foreach (var perk in _perks)
 			{
-				Debug.Log("On TriggerActivate");
 				perk.ActivateEffects(_enemy);
 			}
 
