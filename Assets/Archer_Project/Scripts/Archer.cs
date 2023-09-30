@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class Archer : MonoBehaviour
 {
@@ -88,14 +89,29 @@ public class Archer : MonoBehaviour
 		transform.rotation = Quaternion.LookRotation(_directionXZ);
 	}
 
-	public void ApplyPerks()
+	public void RandomizePerks()
 	{
+		List<Perk> _successedPerks = new List<Perk>();
 		foreach (var _perk in _learnedPerks)
 		{
-			if (_perk.Initilize(this))
+			if (_perk.IsArrowEffect)
 			{
-				_applyedPerks.Add(_perk);
+				if (Random.Range(0, 100) <= _perk.ChanceToProke)
+				{
+					Debug.Log("prokePerk");
+					_successedPerks.Add(_perk);
+				}
 			}
+		}
+
+		if (_successedPerks.Count > 1)
+		{
+			int randomizedPerk = Random.Range(0, _successedPerks.Count - 1);
+			_applyedPerks.Add(_successedPerks[randomizedPerk]);
+		}
+		else if (_successedPerks.Count == 1)
+		{
+			_applyedPerks.Add(_successedPerks[0]);
 		}
 	}
 
@@ -103,7 +119,7 @@ public class Archer : MonoBehaviour
 	{
 		foreach (var perk in _applyedPerks)
 		{
-			perk.DeInitilize(this);
+			perk.DeActivate(this);
 		}
 
 		_applyedPerks.Clear();
@@ -128,6 +144,8 @@ public class Archer : MonoBehaviour
 		GameObject newProjectile = Instantiate(_projectile, _fireTransform.position, _fireTransform.rotation);
 		Arrow newArrow = newProjectile.GetComponent<Arrow>();
 		newArrow.SetArrow(_physicsDamage, _fireDamage, _iceDamage, _poisonDamage, _electricDamage, _arrowSpeed);
+		newArrow._perks.AddRange(_applyedPerks);
+		Debug.Log("AppalyedPerks" + _applyedPerks.Count);
 		newArrow.SetPoints(_points);
 		RemovePerks();
 	}

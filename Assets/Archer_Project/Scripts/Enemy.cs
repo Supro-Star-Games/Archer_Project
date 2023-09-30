@@ -84,8 +84,7 @@ public class Enemy : MonoBehaviour
 		currentHP = hitPoints;
 		currentMovePoint = _movePoint.position;
 	}
-
-	// Update is called once per frame
+	
 	private void FixedUpdate()
 	{
 		Move();

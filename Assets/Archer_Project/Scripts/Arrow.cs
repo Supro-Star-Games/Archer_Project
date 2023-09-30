@@ -10,12 +10,14 @@ public class Arrow : MonoBehaviour
 	private int _currentPoint;
 	private Rigidbody _rb;
 	private bool isHit;
-	
+
 	public float PhDamage { get; set; }
 	public float FDamage { get; set; }
 	public float PDamage { get; set; }
 	public float EDamage { get; set; }
 	public float IDamage { get; set; }
+
+	public List<Perk> _perks = new List<Perk>();
 
 
 	private List<Vector3> _movePoints = new List<Vector3>();
@@ -47,7 +49,7 @@ public class Arrow : MonoBehaviour
 		}
 	}
 
-	public void SetArrow(float physicsDamage, float fireDamage, float iceDamage, float poisonDamage, float electricDamage,float speed)
+	public void SetArrow(float physicsDamage, float fireDamage, float iceDamage, float poisonDamage, float electricDamage, float speed)
 	{
 		PhDamage = physicsDamage;
 		FDamage = fireDamage;
@@ -56,12 +58,19 @@ public class Arrow : MonoBehaviour
 		EDamage = electricDamage;
 		_velocity = speed;
 	}
+
 	// Start is called before the first frame update
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
-			_enemy.TakeDamage(PhDamage,FDamage,IDamage,PDamage,EDamage);
+			_enemy.TakeDamage(PhDamage, FDamage, IDamage, PDamage, EDamage);
+			foreach (var perk in _perks)
+			{
+				Debug.Log("On TriggerActivate");
+				perk.ActivateEffects(_enemy);
+			}
+
 			GetComponent<Rigidbody>().isKinematic = true;
 			GetComponent<Collider>().enabled = false;
 			gameObject.transform.SetParent(_enemy.transform);
