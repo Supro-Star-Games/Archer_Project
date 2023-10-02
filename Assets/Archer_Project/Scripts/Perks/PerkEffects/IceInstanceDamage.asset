@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: IceInstanceDamage
   m_EditorClassIdentifier: 
   _effectName: Ice Damage
-  _minDamage: 35
-  _maxDamage: 50
-  _damageType: 2
+  _instance: 1
+  damageBonuses:
+  - 0
+  - 0
+  - 0
+  - 0
+  _minDamage: 100
+  _maxDamage: 150
+  _damageType: 1

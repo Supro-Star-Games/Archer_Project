@@ -11,6 +11,7 @@ public class ActivePerk : Perk
 	{
 		foreach (var effect in _perkEffects)
 		{
+			effect.damageBonuses = _damageBonuses;
 			effect.ActivateEffect(_enemy);
 		}
 	}
@@ -24,13 +25,9 @@ public class ActivePerk : Perk
 			{
 				continue;
 			}
-			
+			effect.damageBonuses = _damageBonuses;
 			effect.ActivateEffect(_enemy);
 		}
 	}
-
-	public override List<PerkEffect> GetEffects()
-	{
-		return _perkEffects;
-	}
+	
 }

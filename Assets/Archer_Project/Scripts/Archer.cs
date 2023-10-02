@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Archer : MonoBehaviour
@@ -15,6 +17,7 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _maxDistance = 30f;
 	[SerializeField] private float _healthPoints = 100f;
 	[SerializeField] private float _arrowSpeed = 5f;
+	[SerializeField] private float _attackSpeed;
 
 	[Header("Bonus Damage")] [SerializeField]
 	private float _physicsDamage;
@@ -24,35 +27,6 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _poisonDamage;
 	[SerializeField] private float _electricDamage;
 
-	public float PhysicsDamage
-	{
-		get { return _physicsDamage; }
-		set { _physicsDamage = value; }
-	}
-
-	public float FireDamage
-	{
-		get { return _fireDamage; }
-		set { _fireDamage = value; }
-	}
-
-	public float IceDamage
-	{
-		get { return _iceDamage; }
-		set { _iceDamage = value; }
-	}
-
-	public float PoisonDamage
-	{
-		get { return _poisonDamage; }
-		set { _poisonDamage = value; }
-	}
-
-	public float ElectricDamage
-	{
-		get { return _electricDamage; }
-		set { _electricDamage = value; }
-	}
 
 	[Header("Bonus Protection")] [SerializeField]
 	private float _magickShiled;
@@ -66,7 +40,8 @@ public class Archer : MonoBehaviour
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
 
-	[SerializeField] private List<Perk> _learnedPerks;
+	[SerializeField] private List<Perk> _learnedActivePerks;
+	[SerializeField] private List<Perk> _leranedPassivePerks;
 	private List<Perk> _applyedPerks = new List<Perk>();
 
 	public Vector3 ProjectileVelocity { get; set; }
@@ -74,6 +49,11 @@ public class Archer : MonoBehaviour
 	public Transform FireTransform
 	{
 		get { return _fireTransform; }
+	}
+
+	private void Start()
+	{
+		ApplyPassivePerks();
 	}
 
 	private void Update()
@@ -92,13 +72,20 @@ public class Archer : MonoBehaviour
 	public void RandomizePerks()
 	{
 		List<Perk> _successedPerks = new List<Perk>();
-		foreach (var _perk in _learnedPerks)
+		foreach (var _perk in _learnedActivePerks)
 		{
 			if (_perk.IsArrowEffect)
 			{
 				if (Random.Range(0, 100) <= _perk.ChanceToProke)
 				{
 					_successedPerks.Add(_perk);
+				}
+			}
+			else
+			{
+				if (Random.Range(0, 100) <= _perk.ChanceToProke)
+				{
+					_applyedPerks.Add(_perk);
 				}
 			}
 		}
@@ -111,6 +98,16 @@ public class Archer : MonoBehaviour
 		else if (_successedPerks.Count == 1)
 		{
 			_applyedPerks.Add(_successedPerks[0]);
+		}
+	}
+
+	public void ApplyPassivePerks()
+	{
+		foreach (var perk in _leranedPassivePerks)
+		{
+			Debug.Log("Activate");
+			perk.PassiveActivate(this);
+			perk.DeActivate(this);
 		}
 	}
 
@@ -142,8 +139,8 @@ public class Archer : MonoBehaviour
 	{
 		GameObject newProjectile = Instantiate(_projectile, _fireTransform.position, _fireTransform.rotation);
 		Arrow newArrow = newProjectile.GetComponent<Arrow>();
-		newArrow.SetArrow(_physicsDamage, _fireDamage, _iceDamage, _poisonDamage, _electricDamage, _arrowSpeed);
 		newArrow._perks.AddRange(_applyedPerks);
+		newArrow.SetArrow(_physicsDamage, _fireDamage, _iceDamage, _poisonDamage, _electricDamage, _arrowSpeed);
 		newArrow.SetPoints(_points);
 		RemovePerks();
 	}
@@ -152,5 +149,58 @@ public class Archer : MonoBehaviour
 	{
 		ArcherDamaged?.Invoke(damage / (_healthPoints / 100f));
 		_currentHP -= damage;
+	}
+
+	public void TakePassivePerk(PassivePerk.BonusStatType _type, float _percent)
+	{
+		Debug.Log("TakePassive");
+		switch (_type)
+		{
+			case PassivePerk.BonusStatType.HitPoints:
+				Debug.Log("TakeHP");
+				_healthPoints += (_healthPoints / 100f) * _percent;
+				break;
+			case PassivePerk.BonusStatType.ArrowSpeed:
+				_arrowSpeed += (_arrowSpeed / 100f) * _percent;
+				break;
+			case PassivePerk.BonusStatType.AttackSpeed:
+				_attackSpeed += (_attackSpeed / 100f) * _percent;
+				break;
+			case PassivePerk.BonusStatType.PhysicsDamage:
+				_physicsDamage += (_physicsDamage / 100f) * _percent;
+				break;
+			case PassivePerk.BonusStatType.FireDamage:
+				if (_fireDamage == 0)
+				{
+					_fireDamage = _percent;
+				}
+
+				_fireDamage += _percent;
+				break;
+			case PassivePerk.BonusStatType.IceDamage:
+				if (_iceDamage == 0)
+				{
+					_iceDamage = _percent;
+				}
+
+				_iceDamage += _percent;
+				break;
+			case PassivePerk.BonusStatType.ElectricDamage:
+				if (_electricDamage == 0)
+				{
+					_electricDamage = _percent;
+				}
+
+				_electricDamage += _percent;
+				break;
+			case PassivePerk.BonusStatType.PoisonDamage:
+				if (_poisonDamage == 0)
+				{
+					_poisonDamage = _percent;
+				}
+
+				_poisonDamage += _percent;
+				break;
+		}
 	}
 }

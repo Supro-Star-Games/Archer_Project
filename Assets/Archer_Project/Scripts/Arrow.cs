@@ -11,16 +11,14 @@ public class Arrow : MonoBehaviour
 	private Rigidbody _rb;
 	private bool isHit;
 
-	public float PhDamage { get; set; }
-	public float FDamage { get; set; }
-	public float PDamage { get; set; }
-	public float EDamage { get; set; }
-	public float IDamage { get; set; }
+	public float BaseDamage = 20f;
 
 	public List<Perk> _perks = new List<Perk>();
 
 
 	private List<Vector3> _movePoints = new List<Vector3>();
+
+	private List<float> _damageBonus = new List<float>();
 
 
 	private void Start()
@@ -51,11 +49,16 @@ public class Arrow : MonoBehaviour
 
 	public void SetArrow(float physicsDamage, float fireDamage, float iceDamage, float poisonDamage, float electricDamage, float speed)
 	{
-		PhDamage = physicsDamage;
-		FDamage = fireDamage;
-		IDamage = iceDamage;
-		PDamage = poisonDamage;
-		EDamage = electricDamage;
+		BaseDamage += BaseDamage * (physicsDamage / 100);
+		_damageBonus.Add(fireDamage);
+		_damageBonus.Add(iceDamage);
+		_damageBonus.Add(poisonDamage);
+		_damageBonus.Add(electricDamage);
+		foreach (var perk in _perks)
+		{
+			perk.SetDamageBonus(_damageBonus);
+		}
+
 		_velocity = speed;
 	}
 
@@ -64,7 +67,7 @@ public class Arrow : MonoBehaviour
 	{
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
-			_enemy.TakeDamage(PhDamage);
+			_enemy.TakeDamage(BaseDamage);
 			foreach (var perk in _perks)
 			{
 				if (perk.AOE)

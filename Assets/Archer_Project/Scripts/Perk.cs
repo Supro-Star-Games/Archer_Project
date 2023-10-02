@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Perk", menuName = "Assets/Perks/newPerk")]
+
 public class Perk : ScriptableObject
 {
 	[Header("Perk Data")] [SerializeField] private Sprite _perkIcon;
@@ -17,7 +17,10 @@ public class Perk : ScriptableObject
 	[SerializeField] protected float radius;
 	[SerializeField] protected float lifeTime;
 	[SerializeField] protected GameObject areaObject;
-	
+
+	protected List<float> _damageBonuses = new List<float>();
+
+	protected bool isActivated = false;
 	public float ChanceToProke => chanceToProke;
 	public bool IsArrowEffect => isArrowEffect;
 	public bool AOE => aoe;
@@ -26,9 +29,9 @@ public class Perk : ScriptableObject
 	public float LifeTime => lifeTime;
 	public GameObject AreaObject => areaObject;
 
-	public virtual bool Activate(Archer _archer)
+	public virtual void PassiveActivate(Archer _archer)
 	{
-		return false;
+		
 	}
 
 	public virtual void DeActivate(Archer _archer)
@@ -45,6 +48,10 @@ public class Perk : ScriptableObject
 		
 	}
 
+	public virtual void SetDamageBonus(List<float> _bonuses)
+	{
+		_damageBonuses = _bonuses;
+	}
 	public virtual List<PerkEffect> GetEffects()
 	{
 		return new List<PerkEffect>();

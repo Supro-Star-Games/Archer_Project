@@ -15,7 +15,8 @@ public class InstanceDamageEffect : PerkEffect
 	{
 		
 		float damage = Random.Range(_minDamage, _maxDamage);
-		_enemy.TakeDamage(damage, _damageType);
+		float totalDamage = damage + damage * (damageBonuses[(int)_damageType] / 100f);
+		_enemy.TakeDamage(totalDamage, _damageType);
 		
 	}
 }

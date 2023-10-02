@@ -1,49 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[CreateAssetMenu(fileName = "PassivePerk", menuName = "Assets/Perks/newPassivePerk")]
 public class PassivePerk : Perk
 {
-	[Header("Bonus Characteristic")] [SerializeField]
-	private float _hpBonus;
+	[FormerlySerializedAs("bounsInPercents")] [Header("Passive Bonus")] [SerializeField]
+	private float bonusInPercents;
 
-	[SerializeField] private float _arrowSpeedBonus;
-	[SerializeField] private float _attackSpeedBonus;
+	[SerializeField] private BonusStatType _bonusStatType;
 
 
-	[Header("Bonus Damage")] [SerializeField]
-	private float _physicsDamage;
-
-	[SerializeField] private float _fireDamage;
-	[SerializeField] private float _iceDamage;
-	[SerializeField] private float _poisonDamage;
-	[SerializeField] private float _electricDamage;
-
-	[Header("Bonus Protection")] [SerializeField]
-	private float _magickShiled;
-
-	[SerializeField] private float _fireProtection;
-	[SerializeField] private float _iceProtection;
-	[SerializeField] private float _poisonProtection;
-	
-	
-	public override bool Activate(Archer _archer)
+	public enum BonusStatType
 	{
-		_archer.PhysicsDamage += _physicsDamage;
-		_archer.FireDamage += _fireDamage;
-		_archer.IceDamage += _iceDamage;
-		_archer.PoisonDamage += _poisonDamage;
-		_archer.ElectricDamage += _electricDamage;
-		return true;
+		HitPoints,
+		ArrowSpeed,
+		AttackSpeed,
+		PhysicsDamage,
+		FireDamage,
+		IceDamage,
+		PoisonDamage,
+		ElectricDamage,
+		PhysicsProtection,
+		FireProtection,
+		IceProtection,
+		ElectricProtection,
+		PoisonProtection
 	}
-	
+
+
+	public override void PassiveActivate(Archer _archer)
+	{
+		if (isActivated == false)
+		{
+			Debug.Log("passive Activate");
+			_archer.TakePassivePerk(_bonusStatType, bonusInPercents);
+			isActivated = true;
+		}
+	}
+
 	public override void DeActivate(Archer _archer)
 	{
-		_archer.PhysicsDamage -= _physicsDamage;
-		_archer.FireDamage -= _fireDamage;
-		_archer.IceDamage -= _iceDamage;
-		_archer.PoisonDamage -= _poisonDamage;
-		_archer.ElectricDamage -= _electricDamage;
+		isActivated = false;
 	}
 
 	public override void ActivateEffects(Enemy _enemy)

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ElectricInstanceDamage
   m_EditorClassIdentifier: 
   _effectName: ElectricDamage
+  _instance: 1
+  damageBonuses: []
   _minDamage: 1
   _maxDamage: 90
   _damageType: 4

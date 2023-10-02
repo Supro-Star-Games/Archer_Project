@@ -15,11 +15,11 @@ public class DOTEffect : PerkEffect
 
 	public enum DamageType
 	{
-		Fire = 1,
-		Ice = 2,
-		Poison = 3,
-		Electric = 4,
-		Physics = 5
+		Fire = 0,
+		Ice = 1,
+		Poison = 2,
+		Electric = 3,
+		Physics = 4
 	}
 
 	[SerializeField] public DamageType damageType;
@@ -31,10 +31,10 @@ public class DOTEffect : PerkEffect
 			return;
 		}
 
-		float damagePerTick = _damage / _ticks;
+		float totalDamage =_damage + _damage * (damageBonuses[(int)damageType] / 100f);
+		float damagePerTick = totalDamage / _ticks;
 		float tickDelay = _duration / _ticks;
 		_damageHandler = _enemy.GetComponent<DamageHandler>();
-		_damageHandler.Activate( damagePerTick, tickDelay, _ticks, damageType,this);
+		_damageHandler.Activate(damagePerTick, tickDelay, _ticks, damageType, this);
 	}
-	
 }

@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: FireDOT
   m_EditorClassIdentifier: 
   _effectName: Fire damge over time
+  _instance: 0
+  damageBonuses: []
   _damage: 50
   _duration: 5
   _ticks: 5
-  damageType: 1
+  _damageHandler: {fileID: 0}
+  damageType: 0
