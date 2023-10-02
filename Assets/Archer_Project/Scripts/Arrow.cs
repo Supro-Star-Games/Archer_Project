@@ -67,15 +67,40 @@ public class Arrow : MonoBehaviour
 			_enemy.TakeDamage(PhDamage);
 			foreach (var perk in _perks)
 			{
+				if (perk.AOE)
+				{
+					AOESphere _area = Instantiate(perk.AreaObject, _enemy.transform.position, Quaternion.identity).GetComponent<AOESphere>();
+					_area.AOEPerk = perk;
+				}
+
 				perk.ActivateEffects(_enemy);
 			}
 
-			GetComponent<Rigidbody>().isKinematic = true;
-			GetComponent<Collider>().enabled = false;
-			gameObject.transform.SetParent(_enemy.transform);
-			isHit = true;
-			_movePoints.Clear();
+			SetParent(_enemy.transform);
 		}
+		else
+		{
+			foreach (var perk in _perks)
+			{
+				if (perk.AOE)
+				{
+					AOESphere _area = Instantiate(perk.AreaObject, other.ClosestPoint(transform.position), Quaternion.identity).GetComponent<AOESphere>();
+					_area.AOEPerk = perk;
+				}
+			}
+
+			SetParent(other.transform);
+		}
+
+		_movePoints.Clear();
+	}
+
+	private void SetParent(Transform _target)
+	{
+		GetComponent<Rigidbody>().isKinematic = true;
+		GetComponent<Collider>().enabled = false;
+		gameObject.transform.SetParent(_target.transform);
+		isHit = true;
 	}
 
 	public void SetPoints(Vector3[] points)

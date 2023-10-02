@@ -29,7 +29,7 @@ public class DebuffEffect : PerkEffect
 		if (_enemy != null)
 		{
 			_damageHandler = _enemy.GetComponent<DamageHandler>();
-			_damageHandler.HandleDebuff(_enemy, _duration, _percent, _characterisric);
+			_damageHandler.HandleDebuff(_duration, _percent, _characterisric, this);
 		}
 	}
 }

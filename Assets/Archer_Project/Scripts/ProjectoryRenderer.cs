@@ -62,7 +62,6 @@ public class ProjectoryRenderer : MonoBehaviour
 
 				if (!isPerksApplyed)
 				{
-					Debug.Log("RandomzePerks");
 					_archer.RandomizePerks();
 					isPerksApplyed = true;
 				}

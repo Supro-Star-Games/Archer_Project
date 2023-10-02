@@ -29,7 +29,6 @@ public class DamageFeedUI : MonoBehaviour
 	public void RenderDamage(float damage)
 	{
 		var newitem = Instantiate(_feedItemPrefab, _content, false).GetComponent<DamageFeedItemUI>();
-		Debug.Log("Damafe is" + damage);
 		newitem.SetDamage(damage);
 	}
 }

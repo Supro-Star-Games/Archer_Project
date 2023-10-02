@@ -98,7 +98,6 @@ public class Archer : MonoBehaviour
 			{
 				if (Random.Range(0, 100) <= _perk.ChanceToProke)
 				{
-					Debug.Log("prokePerk");
 					_successedPerks.Add(_perk);
 				}
 			}
@@ -145,7 +144,6 @@ public class Archer : MonoBehaviour
 		Arrow newArrow = newProjectile.GetComponent<Arrow>();
 		newArrow.SetArrow(_physicsDamage, _fireDamage, _iceDamage, _poisonDamage, _electricDamage, _arrowSpeed);
 		newArrow._perks.AddRange(_applyedPerks);
-		Debug.Log("AppalyedPerks" + _applyedPerks.Count);
 		newArrow.SetPoints(_points);
 		RemovePerks();
 	}
