@@ -9,6 +9,9 @@ using Random = UnityEngine.Random;
 
 public class Archer : MonoBehaviour
 {
+	public event UnityAction<float> ArcherDamaged;
+	public event UnityAction ArhcerLVLUp;
+
 	[SerializeField] private Transform _fireTransform;
 	[SerializeField] private GameObject _projectile;
 	[SerializeField] private float _fireAngle;
@@ -34,15 +37,18 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _fireProtection;
 	[SerializeField] private float _iceProtection;
 	[SerializeField] private float _poisonProtection;
-	public event UnityAction<float> ArcherDamaged;
-
-	private float _currentHP;
-	private Vector3 _direction;
-	private Vector3 _directionXZ;
 
 	[SerializeField] private List<Perk> _learnedActivePerks;
 	[SerializeField] private List<Perk> _leranedPassivePerks;
+
+	private float _currentHP;
+	private float _currentXP;
+	private float _currentLVL = 1;
+	private Vector3 _direction;
+	private Vector3 _directionXZ;
+
 	private List<Perk> _applyedPerks = new List<Perk>();
+
 
 	public Vector3 ProjectileVelocity { get; set; }
 
@@ -59,6 +65,13 @@ public class Archer : MonoBehaviour
 	private void Update()
 	{
 		_fireTransform.localEulerAngles = new Vector3(-_fireAngle, 0f, 0f);
+		if (_currentXP >= 15 * (_currentLVL * 3f))
+		{
+			Debug.Log("LVL_Up!!");
+			ArhcerLVLUp?.Invoke();
+			_currentLVL += 1f;
+			_currentXP = 0f;
+		}
 	}
 
 	public void RotateArcher(Vector3 _mousePos)
@@ -149,6 +162,11 @@ public class Archer : MonoBehaviour
 	{
 		ArcherDamaged?.Invoke(damage / (_healthPoints / 100f));
 		_currentHP -= damage;
+	}
+
+	public void TakeExperience(float _exp)
+	{
+		_currentXP += _exp;
 	}
 
 	public void TakePassivePerk(PassivePerk.BonusStatType _type, float _percent)

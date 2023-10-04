@@ -94,7 +94,7 @@ public class Arrow : MonoBehaviour
 
 			SetParent(other.transform);
 		}
-
+		_perks.Clear();
 		_movePoints.Clear();
 	}
 

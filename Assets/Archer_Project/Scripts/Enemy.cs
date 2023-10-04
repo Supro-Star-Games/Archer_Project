@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour
 		currentHP = hitPoints;
 		currentMovePoint = _movePoint.position;
 	}
-	
+
 	private void FixedUpdate()
 	{
 		Move();
@@ -173,45 +173,50 @@ public class Enemy : MonoBehaviour
 			{
 				if (fireProtection < _damage)
 				{
-					_Damage -= _damage -(_damage / 100) * fireProtection;
+					_Damage -= _damage - (_damage / 100) * fireProtection;
 					currentHP += _Damage;
 				}
+
 				break;
 			}
 			case DOTEffect.DamageType.Ice:
 			{
 				if (iceProtection < _damage)
 				{
-					_Damage -= _damage -(_damage / 100) * iceProtection;
+					_Damage -= _damage - (_damage / 100) * iceProtection;
 					currentHP += _Damage;
 				}
+
 				break;
 			}
 			case DOTEffect.DamageType.Poison:
 			{
 				if (poisonProtection < _damage)
 				{
-					_Damage -= _damage -(_damage / 100) * poisonProtection;
+					_Damage -= _damage - (_damage / 100) * poisonProtection;
 					currentHP += _Damage;
 				}
+
 				break;
 			}
 			case DOTEffect.DamageType.Electric:
 			{
 				if (electricProtection < _damage)
 				{
-					_Damage -= _damage -(_damage / 100) * electricProtection;
+					_Damage -= _damage - (_damage / 100) * electricProtection;
 					currentHP += _Damage;
 				}
+
 				break;
 			}
 			case DOTEffect.DamageType.Physics:
 			{
 				if (physicsProtection < _damage)
 				{
-					_Damage -= _damage -(_damage / 100) * physicsProtection;
+					_Damage -= _damage - (_damage / 100) * physicsProtection;
 					currentHP += _Damage;
 				}
+
 				break;
 			}
 		}
@@ -241,6 +246,7 @@ public class Enemy : MonoBehaviour
 	public void Death()
 	{
 		OnEnemyDeath?.Invoke();
+		_archer.TakeExperience(expForKill);
 		Destroy(gameObject, 0.2f);
 	}
 }

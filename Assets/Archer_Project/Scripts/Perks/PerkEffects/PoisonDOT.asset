@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: PoisonDOT
   m_EditorClassIdentifier: 
   _effectName: Poison damge over time
+  _instance: 0
+  damageBonuses: []
   _damage: 25
   _duration: 5
   _ticks: 5
-  damageType: 3
+  _damageHandler: {fileID: 0}
+  damageType: 2

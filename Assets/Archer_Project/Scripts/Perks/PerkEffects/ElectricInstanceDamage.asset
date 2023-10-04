@@ -17,4 +17,4 @@ MonoBehaviour:
   damageBonuses: []
   _minDamage: 1
   _maxDamage: 90
-  _damageType: 4
+  _damageType: 3
