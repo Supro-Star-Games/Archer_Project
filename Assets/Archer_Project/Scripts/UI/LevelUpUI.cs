@@ -20,6 +20,7 @@ public class LevelUpUI : MonoBehaviour
 
 	private List<Perk> _randomizedPerks = new List<Perk>();
 	private List<PerkItemUI> _perkItems = new List<PerkItemUI>();
+	private List<Perk> _learnedPerks = new List<Perk>();
 
 	public int SelectedItemId { get; set; }
 
@@ -27,7 +28,35 @@ public class LevelUpUI : MonoBehaviour
 	{
 		RandomizePerks();
 		CreatePerkItems();
+		_learnedPerks = _archer.GetLernedPerks();
 		_description.text = _randomizedPerks[0].PerkDescription;
+		foreach (var perk in _learnedPerks)
+		{
+			PerkItemUI _newItem = Instantiate(_perkItem, _learnedPerksContent);
+			_newItem.SetPerkData(perk.PerkName, perk.PerkDescription, perk.PerkIcon);
+			_perkItems.Add(_newItem);
+		}
+	}
+
+	private void Awake()
+	{
+		_archer.ArhcerLVLUp += Show;
+		gameObject.SetActive(false);
+	}
+
+	private void OnDestroy()
+	{
+		_archer.ArhcerLVLUp -= Show;
+	}
+
+	public void Show()
+	{
+		gameObject.SetActive(true);
+	}
+
+	public void Close()
+	{
+		gameObject.SetActive(false);
 	}
 
 	void RandomizePerks()
@@ -61,7 +90,6 @@ public class LevelUpUI : MonoBehaviour
 		_archer.LearnPerk(_randomizedPerks[SelectedItemId]);
 		_randomizedPerks.RemoveAt(SelectedItemId);
 		_perkItems[SelectedItemId].transform.SetParent(_learnedPerksContent);
-		_perkItems.RemoveAt(SelectedItemId);
 	}
 
 	private void OnDisable()

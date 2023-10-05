@@ -26,7 +26,7 @@ public class ProjectoryRenderer : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetMouseButton(0))
+		if (Input.GetMouseButton(0) && !GameManager.IsPaused)
 		{
 			Ray mouseRay = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y + mouseYOffset));
 			RaycastHit _hit;
@@ -69,7 +69,7 @@ public class ProjectoryRenderer : MonoBehaviour
 		}
 
 
-		if (Input.GetMouseButtonUp(0))
+		if (Input.GetMouseButtonUp(0) && !GameManager.IsPaused)
 		{
 			if (distanceToArcher.magnitude < _disabledRadius)
 			{
@@ -78,7 +78,12 @@ public class ProjectoryRenderer : MonoBehaviour
 			}
 
 			_archer.Shot(points);
-			Destroy(_uiTarget.gameObject);
+
+			if (_uiTarget != null)
+			{
+				Destroy(_uiTarget.gameObject);
+			}
+
 			_uiTarget = null;
 			_lineRenderer.enabled = false;
 			isPerksApplyed = false;

@@ -41,6 +41,7 @@ public class Perk : ScriptableObject
 
 	public virtual void DeActivate(Archer _archer)
 	{
+		
 	}
 
 	public virtual void ActivateEffects(Enemy _enemy)

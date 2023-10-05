@@ -26,7 +26,7 @@ public class PerkItemUI : MonoBehaviour
 	public int PerkItemID { get; set; }
 	public String Discription { get; set; }
 
-	public void SetPerkData(string name, string discription, Sprite icon, int _id)
+	public void SetPerkData(string name, string discription, Sprite icon, int _id = 0)
 	{
 		_perkName.text = name;
 		_perkImage.sprite = icon;

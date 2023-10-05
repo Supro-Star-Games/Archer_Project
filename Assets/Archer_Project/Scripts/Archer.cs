@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -68,9 +69,9 @@ public class Archer : MonoBehaviour
 		if (_currentXP >= 15 * (_currentLVL * 3f))
 		{
 			Debug.Log("LVL_Up!!");
-			ArhcerLVLUp?.Invoke();
 			_currentLVL += 1f;
 			_currentXP = 0f;
+			ArhcerLVLUp?.Invoke();
 		}
 	}
 
@@ -179,6 +180,14 @@ public class Archer : MonoBehaviour
 		{
 			_learnedActivePerks.Add(perk);
 		}
+	}
+
+	public List<Perk> GetLernedPerks()
+	{
+		List<Perk> _allPerks = new List<Perk>();
+		_allPerks.AddRange(_learnedActivePerks);
+		_allPerks.AddRange(_leranedPassivePerks);
+		return _allPerks;
 	}
 
 	public void TakePassivePerk(PassivePerk.BonusStatType _type, float _percent)
