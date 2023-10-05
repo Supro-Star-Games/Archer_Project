@@ -169,6 +169,18 @@ public class Archer : MonoBehaviour
 		_currentXP += _exp;
 	}
 
+	public void LearnPerk(Perk perk)
+	{
+		if (perk is PassivePerk)
+		{
+			_leranedPassivePerks.Add(perk);
+		}
+		else
+		{
+			_learnedActivePerks.Add(perk);
+		}
+	}
+
 	public void TakePassivePerk(PassivePerk.BonusStatType _type, float _percent)
 	{
 		Debug.Log("TakePassive");
