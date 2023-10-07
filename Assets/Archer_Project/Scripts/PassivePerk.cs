@@ -49,4 +49,10 @@ public class PassivePerk : Perk
 	{
 		throw new System.NotImplementedException();
 	}
+
+	public override void ImprovePerk()
+	{
+		bonusInPercents += bonusInPercents;
+		perkLVL += 1;
+	}
 }

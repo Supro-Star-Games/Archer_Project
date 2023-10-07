@@ -174,11 +174,25 @@ public class Archer : MonoBehaviour
 	{
 		if (perk is PassivePerk)
 		{
-			_leranedPassivePerks.Add(perk);
+			if (_leranedPassivePerks.Contains(perk))
+			{
+				perk.ImprovePerk();
+			}
+			else
+			{
+				_leranedPassivePerks.Add(perk);
+			}
 		}
 		else
 		{
-			_learnedActivePerks.Add(perk);
+			if (_learnedActivePerks.Contains(perk))
+			{
+				perk.ImprovePerk();
+			}
+			else
+			{
+				_learnedActivePerks.Add(perk);
+			}
 		}
 	}
 

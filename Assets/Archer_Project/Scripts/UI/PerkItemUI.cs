@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class PerkItemUI : MonoBehaviour
 {
 	[SerializeField] private TextMeshProUGUI _perkName;
+	[SerializeField] private TextMeshProUGUI _perkLVL;
 	[SerializeField] private Image _perkImage;
 	private LevelUpUI _levelUp;
 
@@ -26,11 +27,12 @@ public class PerkItemUI : MonoBehaviour
 	public int PerkItemID { get; set; }
 	public String Discription { get; set; }
 
-	public void SetPerkData(string name, string discription, Sprite icon, int _id = 0)
+	public void SetPerkData(string name, string discription, Sprite icon,int perkLevel, int _id = 0)
 	{
 		_perkName.text = name;
 		_perkImage.sprite = icon;
 		Discription = discription;
 		PerkItemID = _id;
+		_perkLVL.text = perkLevel.ToString();
 	}
 }

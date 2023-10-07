@@ -11,7 +11,9 @@ public class Perk : ScriptableObject
 	[SerializeField] private String _perkDescription;
 	[SerializeField] protected bool isArrowEffect;
 	[SerializeField] protected float chanceToProke;
+	protected int perkLVL = 1;
 
+	public int PerkLVL => perkLVL;
 	public Sprite PerkIcon => _perkIcon;
 	public String PerkName => _perkName;
 	public String PerkDescription => _perkDescription;
@@ -30,7 +32,6 @@ public class Perk : ScriptableObject
 	public bool IsArrowEffect => isArrowEffect;
 	public bool AOE => aoe;
 	public float Radius => radius;
-
 	public float LifeTime => lifeTime;
 	public GameObject AreaObject => areaObject;
 
@@ -58,8 +59,9 @@ public class Perk : ScriptableObject
 	{
 		_damageBonuses = _bonuses;
 	}
-	public virtual List<PerkEffect> GetEffects()
+
+	public virtual void ImprovePerk()
 	{
-		return new List<PerkEffect>();
+		
 	}
 }

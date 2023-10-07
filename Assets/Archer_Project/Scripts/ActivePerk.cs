@@ -29,5 +29,10 @@ public class ActivePerk : Perk
 			effect.ActivateEffect(_enemy);
 		}
 	}
-	
+
+	public override void ImprovePerk()
+	{
+		chanceToProke += 25f;
+		perkLVL += 1;
+	}
 }
