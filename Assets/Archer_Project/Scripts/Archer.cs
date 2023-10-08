@@ -13,6 +13,8 @@ public class Archer : MonoBehaviour
 	public event UnityAction<float> ArcherDamaged;
 	public event UnityAction ArhcerLVLUp;
 
+	public event UnityAction<float> ExperienceTaked;
+
 	public event UnityAction<List<Perk>> PerksIsApplyed;
 
 	public event UnityAction ArrowShoted;
@@ -48,6 +50,7 @@ public class Archer : MonoBehaviour
 
 	private float _currentHP;
 	private float _currentXP;
+	private float _XPForLevel;
 	private float _currentLVL = 1;
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
@@ -70,9 +73,9 @@ public class Archer : MonoBehaviour
 	private void Update()
 	{
 		_fireTransform.localEulerAngles = new Vector3(-_fireAngle, 0f, 0f);
-		if (_currentXP >= 15 * (_currentLVL * 3f))
+		_XPForLevel = 15 * (_currentLVL * 3f);
+		if (_currentXP >= _XPForLevel)
 		{
-			Debug.Log("LVL_Up!!");
 			_currentLVL += 1f;
 			_currentXP = 0f;
 			ArhcerLVLUp?.Invoke();
@@ -117,7 +120,7 @@ public class Archer : MonoBehaviour
 		{
 			_applyedPerks.Add(_successedPerks[0]);
 		}
-		
+
 		PerksIsApplyed?.Invoke(_applyedPerks);
 	}
 
@@ -175,6 +178,8 @@ public class Archer : MonoBehaviour
 	public void TakeExperience(float _exp)
 	{
 		_currentXP += _exp;
+		float newExp = _exp / (_XPForLevel / 100f);
+		ExperienceTaked?.Invoke(newExp);
 	}
 
 	public void LearnPerk(Perk perk)
