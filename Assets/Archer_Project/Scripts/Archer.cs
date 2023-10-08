@@ -17,6 +17,8 @@ public class Archer : MonoBehaviour
 
 	public event UnityAction<List<Perk>> PerksIsApplyed;
 
+	public event UnityAction GameOver;
+
 	public event UnityAction ArrowShoted;
 
 	[SerializeField] private Transform _fireTransform;
@@ -68,6 +70,7 @@ public class Archer : MonoBehaviour
 	private void Start()
 	{
 		ApplyPassivePerks();
+		_currentHP = _healthPoints;
 	}
 
 	private void Update()
@@ -80,6 +83,7 @@ public class Archer : MonoBehaviour
 			_currentXP = 0f;
 			ArhcerLVLUp?.Invoke();
 		}
+
 	}
 
 	public void RotateArcher(Vector3 _mousePos)
@@ -173,6 +177,10 @@ public class Archer : MonoBehaviour
 	{
 		ArcherDamaged?.Invoke(damage / (_healthPoints / 100f));
 		_currentHP -= damage;
+		if (_currentHP <= 0)
+		{
+			GameOver?.Invoke();
+		}
 	}
 
 	public void TakeExperience(float _exp)
@@ -206,6 +214,7 @@ public class Archer : MonoBehaviour
 				_learnedActivePerks.Add(perk);
 			}
 		}
+		ApplyPassivePerks();
 	}
 
 	public List<Perk> GetLernedPerks()

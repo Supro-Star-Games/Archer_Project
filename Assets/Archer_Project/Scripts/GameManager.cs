@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class  GameManager : MonoBehaviour
 {
@@ -35,7 +36,15 @@ public class  GameManager : MonoBehaviour
           _archer.ArhcerLVLUp -= PauseGame;
      }
 
-     
+     public static void RestartLevel()
+     {
+          SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+     }
+
+     public static void LoadMenu()
+     {
+          SceneManager.LoadScene("MainMenu");
+     }
      public static void PauseGame()
      {
           if (Time.timeScale > 0)

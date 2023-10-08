@@ -11,6 +11,8 @@ public class Fence : MonoBehaviour
 
 	public event UnityAction<float> FenceDamaged;
 
+	public event UnityAction FenceDestroed;
+
 	// Start is called before the first frame update
 	private void Awake()
 	{
@@ -21,9 +23,10 @@ public class Fence : MonoBehaviour
 	{
 		if (currentDurability <= 0)
 		{
+			FenceDestroed?.Invoke();
 			return;
 		}
-
+        
 		currentDurability -= _damage;
 		//_castleUI.TakeDamage(_damage / (_durability / 100f));
 		FenceDamaged?.Invoke(_damage / (_durability / 100f));
