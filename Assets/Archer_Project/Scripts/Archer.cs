@@ -13,6 +13,10 @@ public class Archer : MonoBehaviour
 	public event UnityAction<float> ArcherDamaged;
 	public event UnityAction ArhcerLVLUp;
 
+	public event UnityAction<List<Perk>> PerksIsApplyed;
+
+	public event UnityAction ArrowShoted;
+
 	[SerializeField] private Transform _fireTransform;
 	[SerializeField] private GameObject _projectile;
 	[SerializeField] private float _fireAngle;
@@ -113,6 +117,8 @@ public class Archer : MonoBehaviour
 		{
 			_applyedPerks.Add(_successedPerks[0]);
 		}
+		
+		PerksIsApplyed?.Invoke(_applyedPerks);
 	}
 
 	public void ApplyPassivePerks()
@@ -157,6 +163,7 @@ public class Archer : MonoBehaviour
 		newArrow.SetArrow(_physicsDamage, _fireDamage, _iceDamage, _poisonDamage, _electricDamage, _arrowSpeed);
 		newArrow.SetPoints(_points);
 		RemovePerks();
+		ArrowShoted?.Invoke();
 	}
 
 	public void TakeDamage(float damage)
@@ -206,7 +213,6 @@ public class Archer : MonoBehaviour
 
 	public void TakePassivePerk(PassivePerk.BonusStatType _type, float _percent)
 	{
-		Debug.Log("TakePassive");
 		switch (_type)
 		{
 			case PassivePerk.BonusStatType.HitPoints:
