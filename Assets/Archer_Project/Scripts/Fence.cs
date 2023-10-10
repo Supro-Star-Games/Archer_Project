@@ -26,7 +26,7 @@ public class Fence : MonoBehaviour
 			FenceDestroed?.Invoke();
 			return;
 		}
-        
+
 		currentDurability -= _damage;
 		//_castleUI.TakeDamage(_damage / (_durability / 100f));
 		FenceDamaged?.Invoke(_damage / (_durability / 100f));

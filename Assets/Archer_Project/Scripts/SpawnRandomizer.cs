@@ -41,10 +41,9 @@ public class SpawnRandomizer : MonoBehaviour
 
 			_enemies.Add(_newWaveList);
 		}
-		
+
 		foreach (var enemylist in _enemies)
 		{
-
 			int index = 0;
 			foreach (var enemy in enemylist)
 			{
@@ -52,7 +51,6 @@ public class SpawnRandomizer : MonoBehaviour
 				index++;
 			}
 		}
-		
 	}
 
 	private void Update()
@@ -61,6 +59,7 @@ public class SpawnRandomizer : MonoBehaviour
 		{
 			return;
 		}
+
 		_timeFromLastSpawn += Time.deltaTime;
 		if (_timeFromLastSpawn >= _spawnDelay)
 		{
@@ -73,25 +72,6 @@ public class SpawnRandomizer : MonoBehaviour
 
 			_timeFromLastSpawn = 0f;
 			currentWave++;
-
 		}
-	}
-}
-
-[CreateAssetMenu(fileName = "newWave", menuName = "Wave/newWave")]
-public class AttackWave : ScriptableObject
-{
-	[SerializeField] private int _points;
-	[SerializeField] private List<Enemy> _enemies;
-	[SerializeField] private int _lines;
-
-	public int Points => _points;
-
-	public int Lines => _lines;
-
-	public List<Enemy> Enemies
-	{
-		get { return _enemies; }
-		set { _enemies = value; }
 	}
 }

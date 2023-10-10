@@ -82,8 +82,8 @@ public class Archer : MonoBehaviour
 			_currentLVL += 1f;
 			_currentXP = 0f;
 			ArhcerLVLUp?.Invoke();
+			GameManager.PauseGame();
 		}
-
 	}
 
 	public void RotateArcher(Vector3 _mousePos)
@@ -181,6 +181,8 @@ public class Archer : MonoBehaviour
 		{
 			GameOver?.Invoke();
 		}
+
+		Debug.Log("currentHP is " + _currentHP);
 	}
 
 	public void TakeExperience(float _exp)
@@ -214,6 +216,7 @@ public class Archer : MonoBehaviour
 				_learnedActivePerks.Add(perk);
 			}
 		}
+
 		ApplyPassivePerks();
 	}
 
