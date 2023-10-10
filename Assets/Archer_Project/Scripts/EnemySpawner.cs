@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
 
 	public void SpawnEnemy()
 	{
-		if (currentEnemyCount >= _enemies.Count - 1)
+		if (currentEnemyCount > _enemies.Count - 1)
 		{
 			return;
 		}

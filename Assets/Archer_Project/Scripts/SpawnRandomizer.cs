@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 
 public class SpawnRandomizer : MonoBehaviour
 {
+	public event UnityAction EnemiesDead;
+
 	[SerializeField] private List<AttackWave> _attackWaves;
 	[SerializeField] private List<EnemySpawner> _spawners;
 	[SerializeField] private float _spawnDelay;
@@ -17,6 +20,7 @@ public class SpawnRandomizer : MonoBehaviour
 	public List<List<Enemy>> Enemies => _enemies;
 	private float _timeFromLastSpawn;
 	private int currentWave;
+	private int _enemiesCount;
 
 
 	void Start()
@@ -32,6 +36,7 @@ public class SpawnRandomizer : MonoBehaviour
 				{
 					points -= _wave.Enemies[randomizedEnemy].SpawnCost;
 					_newWaveList.Add(_wave.Enemies[randomizedEnemy]);
+					_enemiesCount++;
 				}
 				else
 				{
@@ -53,9 +58,18 @@ public class SpawnRandomizer : MonoBehaviour
 		}
 	}
 
+	public void CheckWinCondition()
+	{
+		_enemiesCount--;
+		if (_enemiesCount == 0)
+		{
+			EnemiesDead?.Invoke();
+		}
+	}
+
 	private void Update()
 	{
-		if (currentWave >= _enemies.Count - 1)
+		if (currentWave > _enemies.Count - 1)
 		{
 			return;
 		}

@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private float poisonAttack;
 	[SerializeField] private float electricAttack;
 
-
+	private SpawnRandomizer _spawner;
 	private MeleeAttackPoints _points;
 	private Transform _movePoint;
 	private float currentHP;
@@ -47,9 +47,11 @@ public class Enemy : MonoBehaviour
 	private float time;
 	private Archer _archer;
 	private AttackPoint closestPoint;
+	private bool isDead;
 
 	public event UnityAction OnEnemyDeath;
 	public event UnityAction<float> OnDamage;
+
 
 	public Transform MovePoint
 	{
@@ -67,6 +69,11 @@ public class Enemy : MonoBehaviour
 	public int SpawnCost => spawnCost;
 
 	// Start is called before the first frame update
+	private void Awake()
+	{
+		_spawner = FindObjectOfType<SpawnRandomizer>();
+	}
+
 	void Start()
 	{
 		if (isRangeEnemy)
@@ -87,12 +94,14 @@ public class Enemy : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		Move();
-		Attack();
-
-		if (currentHP <= 0)
+		if (!isDead)
 		{
-			Death();
+			Move();
+			Attack();
+			if (currentHP <= 0)
+			{
+				Death();
+			}
 		}
 	}
 
@@ -248,5 +257,7 @@ public class Enemy : MonoBehaviour
 		OnEnemyDeath?.Invoke();
 		_archer.TakeExperience(expForKill);
 		Destroy(gameObject, 0.2f);
+		_spawner.CheckWinCondition();
+		isDead = true;
 	}
 }
