@@ -135,4 +135,5 @@ public class LevelUpUI : MonoBehaviour
 
 		isSelected = false;
 	}
+
 }

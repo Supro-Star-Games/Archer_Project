@@ -11,19 +11,30 @@ public class PerkItemUI : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _perkLVL;
 	[SerializeField] private Image _perkImage;
 	[SerializeField] private TextMeshProUGUI _lvlText;
-	private LevelUpUI _levelUp;
+
+	private LevelUpUI _levelUpMenu;
+	private GameplayMenuUI _gameplayMenu;
+
 
 	private void Awake()
 	{
-		_levelUp = FindObjectOfType<LevelUpUI>();
+		_levelUpMenu = FindObjectOfType<LevelUpUI>();
+		_gameplayMenu = FindObjectOfType<GameplayMenuUI>();
 	}
 
 	public void SelectItem()
 	{
-		Debug.Log("selected ID" + PerkItemID);
-		_levelUp.SelectedItemId = PerkItemID;
-		_levelUp.SetDescription(Discription);
+		if (_levelUpMenu != null)
+		{
+			_levelUpMenu.SelectedItemId = PerkItemID;
+			_levelUpMenu.SetDescription(Discription);
+		}
+		else
+		{
+			_gameplayMenu.SetDescription(Discription);
+		}
 	}
+
 
 	public int PerkItemID { get; set; }
 	public String Discription { get; set; }

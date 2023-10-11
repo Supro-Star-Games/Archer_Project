@@ -21,6 +21,9 @@ public class Archer : MonoBehaviour
 
 	public event UnityAction ArrowShoted;
 
+	public event Action<Dictionary<string, float>> GetStatistics; 
+
+
 	[SerializeField] private Transform _fireTransform;
 	[SerializeField] private GameObject _projectile;
 	[SerializeField] private float _fireAngle;
@@ -72,7 +75,7 @@ public class Archer : MonoBehaviour
 		ApplyPassivePerks();
 		_currentHP = _healthPoints;
 	}
-
+    
 	private void Update()
 	{
 		_fireTransform.localEulerAngles = new Vector3(-_fireAngle, 0f, 0f);
@@ -85,7 +88,9 @@ public class Archer : MonoBehaviour
 			GameManager.PauseGame();
 		}
 	}
-
+    
+	
+	
 	public void RotateArcher(Vector3 _mousePos)
 	{
 		_direction = _mousePos - _fireTransform.position;
@@ -94,6 +99,23 @@ public class Archer : MonoBehaviour
 		transform.rotation = Quaternion.LookRotation(_directionXZ);
 	}
 
+	public void GetStats()
+	{
+		GetStatistics?.Invoke(HandleStats());
+	}
+	public Dictionary<string,float> HandleStats()
+	{
+		Dictionary<string, float> _stats = new Dictionary<string, float>();
+		_stats.Add("MaxHP",_healthPoints);
+		_stats.Add("AtkSpeed",_attackSpeed);
+		_stats.Add("ArrowSpeed", _arrowSpeed);
+		_stats.Add("phDamage",_physicsDamage);
+		_stats.Add("fDamage", _fireDamage);
+		_stats.Add("iDamage", _iceDamage);
+		_stats.Add("pDamage", _poisonDamage);
+		_stats.Add("eDamage",_electricDamage);
+		return _stats;
+	}
 	public void RandomizePerks()
 	{
 		List<Perk> _successedPerks = new List<Perk>();
@@ -136,6 +158,8 @@ public class Archer : MonoBehaviour
 			perk.StartActivate(this);
 		}
 	}
+	
+	
 
 	public void RemovePerks()
 	{
