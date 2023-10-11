@@ -133,18 +133,12 @@ public class Archer : MonoBehaviour
 		foreach (var perk in _leranedPassivePerks)
 		{
 			Debug.Log("Activate");
-			perk.PassiveActivate(this);
-			perk.DeActivate(this);
+			perk.StartActivate(this);
 		}
 	}
 
 	public void RemovePerks()
 	{
-		foreach (var perk in _applyedPerks)
-		{
-			perk.DeActivate(this);
-		}
-
 		_applyedPerks.Clear();
 	}
 
@@ -198,10 +192,12 @@ public class Archer : MonoBehaviour
 		{
 			if (_leranedPassivePerks.Contains(perk))
 			{
+				perk.PassiveActivate(this);
 				perk.ImprovePerk();
 			}
 			else
 			{
+				perk.PassiveActivate(this);
 				_leranedPassivePerks.Add(perk);
 			}
 		}
@@ -216,8 +212,6 @@ public class Archer : MonoBehaviour
 				_learnedActivePerks.Add(perk);
 			}
 		}
-
-		ApplyPassivePerks();
 	}
 
 	public List<Perk> GetLernedPerks()

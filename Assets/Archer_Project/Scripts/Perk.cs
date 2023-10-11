@@ -17,17 +17,16 @@ public class Perk : ScriptableObject
 	public Sprite PerkIcon => _perkIcon;
 	public String PerkName => _perkName;
 	public String PerkDescription => _perkDescription;
-	
-	
-	[Header("AOE Settings")]
-	[SerializeField] protected bool aoe;
+
+
+	[Header("AOE Settings")] [SerializeField]
+	protected bool aoe;
+
 	[SerializeField] protected float radius;
 	[SerializeField] protected float lifeTime;
 	[SerializeField] protected GameObject areaObject;
 
 	protected List<float> _damageBonuses = new List<float>();
-
-	protected bool isActivated = false;
 	public float ChanceToProke => chanceToProke;
 	public bool IsArrowEffect => isArrowEffect;
 	public bool AOE => aoe;
@@ -37,22 +36,18 @@ public class Perk : ScriptableObject
 
 	public virtual void PassiveActivate(Archer _archer)
 	{
-		
 	}
 
-	public virtual void DeActivate(Archer _archer)
+	public virtual void StartActivate(Archer _archer)
 	{
-		
 	}
 
 	public virtual void ActivateEffects(Enemy _enemy)
 	{
-		Debug.Log("activateEffects");
 	}
 
 	public virtual void ReActivateEffects(Enemy _enemy)
 	{
-		
 	}
 
 	public virtual void SetDamageBonus(List<float> _bonuses)
@@ -62,6 +57,9 @@ public class Perk : ScriptableObject
 
 	public virtual void ImprovePerk()
 	{
-		
+	}
+
+	public virtual void SetData(Perk _basePerk)
+	{
 	}
 }

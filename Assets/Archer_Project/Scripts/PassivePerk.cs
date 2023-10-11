@@ -32,27 +32,22 @@ public class PassivePerk : Perk
 
 	public override void PassiveActivate(Archer _archer)
 	{
-		if (isActivated == false)
-		{
-			Debug.Log("passive Activate");
-			_archer.TakePassivePerk(_bonusStatType, bonusInPercents);
-			isActivated = true;
-		}
+		Debug.Log("passive Activate");
+		_archer.TakePassivePerk(_bonusStatType, bonusInPercents);
 	}
 
-	public override void DeActivate(Archer _archer)
+	public override void StartActivate(Archer _archer)
 	{
-		isActivated = false;
+		_archer.TakePassivePerk(_bonusStatType, bonusInPercents * perkLVL);
 	}
 
 	public override void ActivateEffects(Enemy _enemy)
 	{
-		throw new System.NotImplementedException();
+		
 	}
 
 	public override void ImprovePerk()
 	{
-		bonusInPercents += bonusInPercents;
 		perkLVL += 1;
 	}
 }

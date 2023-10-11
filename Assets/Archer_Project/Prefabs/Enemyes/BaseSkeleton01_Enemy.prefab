@@ -56,7 +56,7 @@ MonoBehaviour:
   isRangeEnemy: 0
   spawnCost: 0
   headDamageMult: 0
-  expForKill: 3
+  expForKill: 10
   magickShield: 0
   physicsProtection: 0
   fireProtection: 0

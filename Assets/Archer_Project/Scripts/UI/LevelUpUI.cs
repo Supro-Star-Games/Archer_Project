@@ -72,7 +72,8 @@ public class LevelUpUI : MonoBehaviour
 		_randomizedPerks.Clear();
 		for (int i = 0; i < _perksToSelect.Length; i++)
 		{
-			int value = Random.Range(0, _perks.Count - 1);
+			//	int value = Random.Range(0, _perks.Count - 1);
+			int value = GameManager.GenerateRandomNumber(0, _perks.Count - 1, _randomizedPerkIndexes);
 			_randomizedPerks.Add(_perks[value]);
 			_randomizedPerkIndexes.Add(value);
 			//	_perks.RemoveAt(value);
@@ -85,6 +86,7 @@ public class LevelUpUI : MonoBehaviour
 		{
 			PerkItemUI _newitem = Instantiate(_perkItem, _perksToSelect[i]);
 			_newitem.SetPerkData(_randomizedPerks[i].PerkName, _randomizedPerks[i].PerkDescription, _randomizedPerks[i].PerkIcon, _randomizedPerks[i].PerkLVL, i);
+			_newitem.HideLvL();
 			_perkItems.Add(_newitem);
 		}
 	}

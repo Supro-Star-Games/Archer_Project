@@ -31,8 +31,7 @@ public class ArcherUI : MonoBehaviour
 		_archer.ArhcerLVLUp -= ResetSlider;
 		_archer.ExperienceTaked -= TakeXP;
 	}
-
-	// Update is called once per frame
+	
 	public void TakeDamage(float _damage)
 	{
 		_HPSlider.value -= _damage / 100f;

@@ -224,6 +224,7 @@ MonoBehaviour:
   _perkName: {fileID: 5651038377785496383}
   _perkLVL: {fileID: 466480000605651302}
   _perkImage: {fileID: 3662602849410654106}
+  _lvlText: {fileID: 330536096784733171}
 --- !u!114 &2826250046845839556
 MonoBehaviour:
   m_ObjectHideFlags: 0
