@@ -23,6 +23,7 @@ public class AttackPoint : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
+		Debug.Log("EnterPoint");
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
 			enemy = _enemy;

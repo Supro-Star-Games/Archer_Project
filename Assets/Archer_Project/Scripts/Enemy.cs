@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -48,6 +49,8 @@ public class Enemy : MonoBehaviour
 	private Archer _archer;
 	private AttackPoint closestPoint;
 	private bool isDead;
+	private Quaternion _startRotation;
+	private float rotationTime;
 
 	public event UnityAction OnEnemyDeath;
 	public event UnityAction<float> OnDamage;
@@ -107,10 +110,6 @@ public class Enemy : MonoBehaviour
 
 	void Move()
 	{
-		Vector3 direction = currentMovePoint - transform.position;
-		_rb.velocity = direction.normalized * _velocity;
-		Vector3 directionXZ = new Vector3(direction.x, 0f, direction.z);
-		_rb.rotation = Quaternion.LookRotation(directionXZ);
 		float distance = Vector3.Distance(transform.position, currentMovePoint);
 		if (distance < 0.4f)
 		{
@@ -119,9 +118,31 @@ public class Enemy : MonoBehaviour
 			pointIsReached = true;
 			if (_attackPositionSeted)
 			{
-				_rb.rotation = Quaternion.LookRotation(Vector3.forward);
+				Debug.Log("_attackposition setted");
+				Vector3 fenceDirection = _fence.transform.position - _rb.position;
+				Vector3 fenceXZ = new Vector3(fenceDirection.x, 0f, fenceDirection.z);
+				//	_rb.rotation = Quaternion.LookRotation(fenceXZ)
+				if (rotationTime <= 1)
+				{
+					rotationTime += Time.deltaTime / 2f;
+					// Используйте Quaternion.Slerp для плавного вращения
+					_rb.rotation = Quaternion.Lerp(_rb.rotation, Quaternion.LookRotation(fenceXZ.normalized), rotationTime);
+				}
+				else
+				{
+					_rb.rotation = Quaternion.LookRotation(fenceXZ);
+				}
+
+				;
+				//_rb.DOLookAt(_fence.transform.position, 1f);
+				return;
 			}
 		}
+
+		Vector3 direction = currentMovePoint - transform.position;
+		_rb.velocity = direction.normalized * _velocity;
+		Vector3 directionXZ = new Vector3(direction.x, 0f, direction.z);
+		_rb.rotation = Quaternion.LookRotation(directionXZ);
 
 		if (pointIsReached && !_attackPositionSeted)
 		{
