@@ -62,6 +62,8 @@ public class Enemy : MonoBehaviour
 		get { return _movePoint; }
 	}
 
+	public Vector3 CurrentPoint => currentMovePoint;
+
 	public bool IsOnAttackPoint
 	{
 		get { return isOnAttackPoint; }
@@ -95,12 +97,39 @@ public class Enemy : MonoBehaviour
 		currentMovePoint = _movePoint.position;
 	}
 
+	public void GetAttackPoint()
+	{
+		Debug.Log("GetAttackPoint");
+		float closestDistance = 500f;
+		foreach (var _point in _points.AttackPoints)
+		{
+			if (!_point.IsBusy)
+			{
+				float pointToDistance = Vector3.Distance(transform.position, _point.transform.position);
+				if (pointToDistance < closestDistance)
+				{
+					closestPoint = _point;
+					closestDistance = pointToDistance;
+				}
+			}
+		}
+
+		if (closestPoint == null)
+		{
+			return;
+		}
+
+		closestPoint.IsBusy = true;
+		_attackPositionSeted = true;
+		currentMovePoint = closestPoint.transform.position;
+	}
+
 	private void FixedUpdate()
 	{
 		if (!isDead)
 		{
-			Move();
-			Attack();
+			//	Move();
+			//	Attack();
 			if (currentHP <= 0)
 			{
 				Death();
