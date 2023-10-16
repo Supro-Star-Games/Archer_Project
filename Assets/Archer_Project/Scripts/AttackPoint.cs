@@ -14,21 +14,28 @@ public class AttackPoint : MonoBehaviour
 		set { isBusy = value; }
 	}
 
+	public void SetEnemy(Enemy _enemy)
+	{
+		enemy = _enemy;
+		enemy.OnEnemyDeath += RevealPoint;
+	}
+
 	// Start is called before the first frame update
-	private void RevealPoint()
+	private void RevealPoint(Enemy _enemy)
 	{
 		isBusy = false;
 		enemy.OnEnemyDeath -= RevealPoint;
+		enemy = null;
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("EnterPoint");
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
-			enemy = _enemy;
-			enemy.IsOnAttackPoint = true;
-			enemy.OnEnemyDeath += RevealPoint;
+			if (enemy == _enemy)
+			{
+				enemy.IsOnAttackPoint = true;
+			}
 		}
 	}
 }
