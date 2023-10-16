@@ -14936,6 +14936,10 @@ PrefabInstance:
       propertyPath: _arrowSpeed
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 7113770318981959588, guid: 3b0fc87fd5f21c14bb5c1dca48140043, type: 3}
+      propertyPath: _projectile
+      value: 
+      objectReference: {fileID: 7995412914785733778, guid: 1f0cd5d7d15b6e749be4e7eecab7157c, type: 3}
     m_RemovedComponents:
     - {fileID: 6815307959054053892, guid: 3b0fc87fd5f21c14bb5c1dca48140043, type: 3}
     m_RemovedGameObjects: []

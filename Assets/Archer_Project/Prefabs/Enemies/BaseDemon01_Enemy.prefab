@@ -16,7 +16,7 @@ GameObject:
   m_Layer: 6
   m_Name: BaseDemon01_Enemy
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 4d7635c366a76274c85747592d98d2f5, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
