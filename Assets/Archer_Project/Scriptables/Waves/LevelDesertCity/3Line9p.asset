@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6ad11459f9de91489d945d9c554146b, type: 3}
   m_Name: 3Line9p
   m_EditorClassIdentifier: 
-  _points: 9
+  _points: 12
   _enemies:
   - {fileID: 891632178777247891, guid: 3ae41ace56683e347b595aa929ac7234, type: 3}
   - {fileID: 1714208332016960026, guid: 77b602e4fd115304886137e3afb29ef3, type: 3}

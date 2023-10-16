@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
 	private Quaternion _startRotation;
 	private float rotationTime;
 
-	public event UnityAction OnEnemyDeath;
+	public event UnityAction<Enemy> OnEnemyDeath;
 	public event UnityAction<float> OnDamage;
 
 
@@ -99,7 +99,6 @@ public class Enemy : MonoBehaviour
 
 	public void GetAttackPoint()
 	{
-		Debug.Log("GetAttackPoint");
 		float closestDistance = 500f;
 		foreach (var _point in _points.AttackPoints)
 		{
@@ -120,6 +119,7 @@ public class Enemy : MonoBehaviour
 		}
 
 		closestPoint.IsBusy = true;
+		closestPoint.SetEnemy(this);
 		_attackPositionSeted = true;
 		currentMovePoint = closestPoint.transform.position;
 	}
@@ -304,7 +304,7 @@ public class Enemy : MonoBehaviour
 
 	public void Death()
 	{
-		OnEnemyDeath?.Invoke();
+		OnEnemyDeath?.Invoke(this);
 		_archer.TakeExperience(expForKill);
 		Destroy(gameObject, 0.2f);
 		_spawner.CheckWinCondition();

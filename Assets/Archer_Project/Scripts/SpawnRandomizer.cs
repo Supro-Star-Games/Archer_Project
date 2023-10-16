@@ -14,6 +14,7 @@ public class SpawnRandomizer : MonoBehaviour
 	[SerializeField] private List<AttackWave> _attackWaves;
 	[SerializeField] private List<EnemySpawner> _spawners;
 	[SerializeField] private float _spawnDelay;
+	[SerializeField] private EnemySpawner _spawner;
 
 	private List<List<Enemy>> _enemies = new List<List<Enemy>>();
 
@@ -21,6 +22,9 @@ public class SpawnRandomizer : MonoBehaviour
 	private float _timeFromLastSpawn;
 	private int currentWave;
 	private int _enemiesCount;
+	private List<int> _waveLines = new List<int>();
+	
+	
 
 
 	void Start()
@@ -49,13 +53,16 @@ public class SpawnRandomizer : MonoBehaviour
 
 		foreach (var enemylist in _enemies)
 		{
+			_waveLines.Add(enemylist.Count);
 			int index = 0;
 			foreach (var enemy in enemylist)
 			{
-				_spawners[index].Enemies.Add(enemy);
+				_spawner.Enemies.Add(enemy);
 				index++;
 			}
 		}
+
+		_spawner.WaveEnemies = _waveLines;
 	}
 
 	public void CheckWinCondition()
@@ -69,6 +76,7 @@ public class SpawnRandomizer : MonoBehaviour
 
 	private void Update()
 	{
+		/*
 		if (currentWave > _enemies.Count - 1)
 		{
 			return;
@@ -80,12 +88,12 @@ public class SpawnRandomizer : MonoBehaviour
 			int index = 0;
 			foreach (var enemy in _enemies[currentWave])
 			{
-				_spawners[index].SpawnEnemy();
 				index++;
 			}
-
+			_spawner.SpawnEnemy(index);
 			_timeFromLastSpawn = 0f;
 			currentWave++;
 		}
+		*/
 	}
 }
