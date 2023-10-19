@@ -12,8 +12,6 @@ public class DamageFeedItemUI : MonoBehaviour
 	private TextMeshProUGUI _damageText;
 	private float lifeTime;
 
-	public String damage { get; set; }
-
 	private void Awake()
 	{
 		_damageText = GetComponent<TextMeshProUGUI>();
@@ -25,6 +23,7 @@ public class DamageFeedItemUI : MonoBehaviour
 		transform.DOLocalMove(Vector3.up * height, duration);
 	}
 
+
 	void Update()
 	{
 		lifeTime += Time.deltaTime;
@@ -32,5 +31,10 @@ public class DamageFeedItemUI : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
+	}
+
+	private void OnDestroy()
+	{
+		transform.DOComplete();
 	}
 }
