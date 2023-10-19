@@ -12,17 +12,11 @@ public class Archer : MonoBehaviour
 {
 	public event UnityAction<float> ArcherDamaged;
 	public event UnityAction ArhcerLVLUp;
-
 	public event UnityAction<float> ExperienceTaked;
-
 	public event UnityAction<List<Perk>> PerksIsApplyed;
-
 	public event UnityAction GameOver;
-
 	public event UnityAction ArrowShoted;
-
-	public event Action<Dictionary<string, float>> GetStatistics; 
-
+	public event Action<Dictionary<string, float>> GetStatistics;
 
 	[SerializeField] private Transform _fireTransform;
 	[SerializeField] private GameObject _projectile;
@@ -32,7 +26,7 @@ public class Archer : MonoBehaviour
 	[SerializeField] private float _maxDistance = 30f;
 	[SerializeField] private float _healthPoints = 100f;
 	[SerializeField] private float _arrowSpeed = 5f;
-	[SerializeField] private float _attackSpeed;
+	[SerializeField] private float _attackSpeed = 2f;
 
 	[Header("Bonus Damage")] [SerializeField]
 	private float _physicsDamage;
@@ -59,9 +53,10 @@ public class Archer : MonoBehaviour
 	private float _currentLVL = 1;
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
+	private Animator _animator;
+	private bool isShooted;
 
 	private List<Perk> _applyedPerks = new List<Perk>();
-
 
 	public Vector3 ProjectileVelocity { get; set; }
 
@@ -70,12 +65,22 @@ public class Archer : MonoBehaviour
 		get { return _fireTransform; }
 	}
 
+	public bool IsPulling { get; set; }
+
+
+	public float AttackSpeed => _attackSpeed;
+
+	private void Awake()
+	{
+		_animator = GetComponentInChildren<Animator>();
+	}
+
 	private void Start()
 	{
 		ApplyPassivePerks();
 		_currentHP = _healthPoints;
 	}
-    
+
 	private void Update()
 	{
 		_fireTransform.localEulerAngles = new Vector3(-_fireAngle, 0f, 0f);
@@ -87,10 +92,16 @@ public class Archer : MonoBehaviour
 			ArhcerLVLUp?.Invoke();
 			GameManager.PauseGame();
 		}
+
+		if (IsPulling && isShooted)
+		{
+			StopCoroutine(PullBowString());
+			IsPulling = false;
+			_animator.SetBool("IsPulling", false);
+		}
 	}
-    
-	
-	
+
+
 	public void RotateArcher(Vector3 _mousePos)
 	{
 		_direction = _mousePos - _fireTransform.position;
@@ -103,21 +114,25 @@ public class Archer : MonoBehaviour
 	{
 		GetStatistics?.Invoke(HandleStats());
 	}
-	public Dictionary<string,float> HandleStats()
+
+	public Dictionary<string, float> HandleStats()
 	{
 		Dictionary<string, float> _stats = new Dictionary<string, float>();
-		_stats.Add("MaxHP",_healthPoints);
-		_stats.Add("AtkSpeed",_attackSpeed);
+		_stats.Add("MaxHP", _healthPoints);
+		_stats.Add("AtkSpeed", _attackSpeed);
 		_stats.Add("ArrowSpeed", _arrowSpeed);
-		_stats.Add("phDamage",_physicsDamage);
+		_stats.Add("phDamage", _physicsDamage);
 		_stats.Add("fDamage", _fireDamage);
 		_stats.Add("iDamage", _iceDamage);
 		_stats.Add("pDamage", _poisonDamage);
-		_stats.Add("eDamage",_electricDamage);
+		_stats.Add("eDamage", _electricDamage);
 		return _stats;
 	}
+
 	public void RandomizePerks()
 	{
+		isShooted = false;
+		StartCoroutine(PullBowString());
 		List<Perk> _successedPerks = new List<Perk>();
 		foreach (var _perk in _learnedActivePerks)
 		{
@@ -158,8 +173,7 @@ public class Archer : MonoBehaviour
 			perk.StartActivate(this);
 		}
 	}
-	
-	
+
 
 	public void RemovePerks()
 	{
@@ -182,6 +196,13 @@ public class Archer : MonoBehaviour
 
 	public void Shot(Vector3[] _points)
 	{
+		isShooted = true;
+		if (IsPulling)
+		{
+			ArrowShoted?.Invoke();
+			return;
+		}
+
 		GameObject newProjectile = Instantiate(_projectile, _fireTransform.position, _fireTransform.rotation);
 		Arrow newArrow = newProjectile.GetComponent<Arrow>();
 		newArrow._perks.AddRange(_applyedPerks);
@@ -189,6 +210,8 @@ public class Archer : MonoBehaviour
 		newArrow.SetPoints(_points);
 		RemovePerks();
 		ArrowShoted?.Invoke();
+		_animator.SetBool("IsPulling", false);
+		_animator.SetTrigger("Shot");
 	}
 
 	public void TakeDamage(float damage)
@@ -199,8 +222,6 @@ public class Archer : MonoBehaviour
 		{
 			GameOver?.Invoke();
 		}
-
-		Debug.Log("currentHP is " + _currentHP);
 	}
 
 	public void TakeExperience(float _exp)
@@ -296,5 +317,14 @@ public class Archer : MonoBehaviour
 				_poisonDamage += _percent;
 				break;
 		}
+	}
+
+	private IEnumerator PullBowString()
+	{
+		IsPulling = true;
+		_animator.SetBool("IsPulling", true);
+		yield return new WaitForSeconds(_attackSpeed);
+		IsPulling = false;
+		yield break;
 	}
 }

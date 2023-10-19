@@ -71,6 +71,7 @@ public class ProjectoryRenderer : MonoBehaviour
 
 		if (Input.GetMouseButtonUp(0) && !GameManager.IsPaused)
 		{
+			
 			if (distanceToArcher.magnitude < _disabledRadius)
 			{
 				_lineRenderer.enabled = false;
