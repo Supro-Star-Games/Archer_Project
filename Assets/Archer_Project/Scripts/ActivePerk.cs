@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ActivePerk", menuName = "Assets/Perks/newActivePerk")]
 public class ActivePerk : Perk
 {
 	[SerializeField] private List<PerkEffect> _perkEffects;
-
+	
 	public override void ActivateEffects(Enemy _enemy)
 	{
 		foreach (var effect in _perkEffects)
@@ -34,5 +35,10 @@ public class ActivePerk : Perk
 	{
 		chanceToProke += 25f;
 		perkLVL += 1;
+	}
+
+	public override void SetEffects()
+	{
+		Effects = _perkEffects;
 	}
 }

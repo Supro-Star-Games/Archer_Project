@@ -31,10 +31,15 @@ public class DOTEffect : PerkEffect
 			return;
 		}
 
-		float totalDamage =_damage + _damage * (damageBonuses[(int)damageType] / 100f);
+		float totalDamage = _damage + _damage * (damageBonuses[(int)damageType] / 100f);
 		float damagePerTick = totalDamage / _ticks;
 		float tickDelay = _duration / _ticks;
 		_damageHandler = _enemy.GetComponent<DamageHandler>();
 		_damageHandler.Activate(damagePerTick, tickDelay, _ticks, damageType, this);
+	}
+
+	public override DOTEffect.DamageType GetDamageType()
+	{
+		return damageType;
 	}
 }

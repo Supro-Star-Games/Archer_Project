@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a614b36a354b28429da98021857af75, type: 3}
   m_Name: PoisonDOT
   m_EditorClassIdentifier: 
-  _effectName: Poison damge over time
+  _effectName: Posion damage over time
   _instance: 0
   damageBonuses: []
   _damage: 25

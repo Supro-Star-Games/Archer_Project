@@ -19,7 +19,7 @@ public class Archer : MonoBehaviour
 	public event Action<Dictionary<string, float>> GetStatistics;
 
 	[SerializeField] private Transform _fireTransform;
-	[SerializeField] private GameObject _projectile;
+	[SerializeField] private List<Arrow> _projectiles;
 	[SerializeField] private float _fireAngle;
 	[SerializeField] private float _minAngle = -10f;
 	[SerializeField] private float _maxAngle = 15f;
@@ -47,6 +47,7 @@ public class Archer : MonoBehaviour
 	[SerializeField] private List<Perk> _learnedActivePerks;
 	[SerializeField] private List<Perk> _leranedPassivePerks;
 
+	private int currentProjectileIndex;
 	private float _currentHP;
 	private float _currentXP;
 	private float _XPForLevel;
@@ -129,13 +130,16 @@ public class Archer : MonoBehaviour
 		return _stats;
 	}
 
+
 	public void RandomizePerks()
 	{
 		isShooted = false;
+		currentProjectileIndex = 0;
 		StartCoroutine(PullBowString());
 		List<Perk> _successedPerks = new List<Perk>();
 		foreach (var _perk in _learnedActivePerks)
 		{
+			_perk.SetEffects();
 			if (_perk.IsArrowEffect)
 			{
 				if (Random.Range(0, 100) <= _perk.ChanceToProke)
@@ -161,6 +165,33 @@ public class Archer : MonoBehaviour
 		{
 			_applyedPerks.Add(_successedPerks[0]);
 		}
+
+		foreach (var perk in _applyedPerks)
+		{
+			if (!perk.IsArrowEffect)
+			{
+				continue;
+			}
+			else
+			{
+				switch (perk.Effects.First().GetDamageType())
+				{
+					case DOTEffect.DamageType.Fire:
+						currentProjectileIndex = 1;
+						break;
+					case DOTEffect.DamageType.Ice:
+						currentProjectileIndex = 2;
+						break;
+					case DOTEffect.DamageType.Poison:
+						currentProjectileIndex = 3;
+						break;
+					case DOTEffect.DamageType.Electric:
+						currentProjectileIndex = 4;
+						break;
+				}
+			}
+		}
+
 
 		PerksIsApplyed?.Invoke(_applyedPerks);
 	}
@@ -203,11 +234,10 @@ public class Archer : MonoBehaviour
 			return;
 		}
 
-		GameObject newProjectile = Instantiate(_projectile, _fireTransform.position, _fireTransform.rotation);
-		Arrow newArrow = newProjectile.GetComponent<Arrow>();
-		newArrow._perks.AddRange(_applyedPerks);
-		newArrow.SetArrow(_physicsDamage, _fireDamage, _iceDamage, _poisonDamage, _electricDamage, _arrowSpeed);
-		newArrow.SetPoints(_points);
+		Arrow newProjectile = Instantiate(_projectiles[currentProjectileIndex], _fireTransform.position, _fireTransform.rotation);
+		newProjectile._perks.AddRange(_applyedPerks);
+		newProjectile.SetArrow(HandleStats());
+		newProjectile.SetPoints(_points);
 		RemovePerks();
 		ArrowShoted?.Invoke();
 		_animator.SetBool("IsPulling", false);

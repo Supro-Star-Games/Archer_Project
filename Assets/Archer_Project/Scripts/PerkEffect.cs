@@ -12,4 +12,9 @@ public abstract class PerkEffect : ScriptableObject
 	public bool Instance => _instance;
 	public abstract void ActivateEffect(Enemy _enemy = null);
 
+	public virtual DOTEffect.DamageType GetDamageType()
+	{
+		return 0;
+	}
+
 }

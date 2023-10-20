@@ -47,19 +47,19 @@ public class Arrow : MonoBehaviour
 		}
 	}
 
-	public void SetArrow(float physicsDamage, float fireDamage, float iceDamage, float poisonDamage, float electricDamage, float speed)
+	public void SetArrow(Dictionary<string,float> _bonuses)
 	{
-		BaseDamage += BaseDamage * (physicsDamage / 100);
-		_damageBonus.Add(fireDamage);
-		_damageBonus.Add(iceDamage);
-		_damageBonus.Add(poisonDamage);
-		_damageBonus.Add(electricDamage);
+		BaseDamage += BaseDamage * (_bonuses["phDamage"] / 100);
+		_damageBonus.Add(_bonuses["fDamage"]);
+		_damageBonus.Add(_bonuses["iDamage"]);
+		_damageBonus.Add(_bonuses["pDamage"]);
+		_damageBonus.Add(_bonuses["eDamage"]);
 		foreach (var perk in _perks)
 		{
 			perk.SetDamageBonus(_damageBonus);
 		}
 
-		_velocity = speed;
+		_velocity = _bonuses["ArrowSpeed"];
 	}
 
 	// Start is called before the first frame update

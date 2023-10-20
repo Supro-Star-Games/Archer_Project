@@ -416,7 +416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4329016118788040749, guid: 3d86d0ebec5fff14ca0430e78800bbb9, type: 3}
       propertyPath: expForKill
-      value: 3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4329016118788040749, guid: 3d86d0ebec5fff14ca0430e78800bbb9, type: 3}
       propertyPath: attackDelay
