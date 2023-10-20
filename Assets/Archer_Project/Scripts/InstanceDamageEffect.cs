@@ -19,4 +19,9 @@ public class InstanceDamageEffect : PerkEffect
 		_enemy.TakeDamage(totalDamage, _damageType);
 		
 	}
+
+	public override DOTEffect.DamageType GetDamageType()
+	{
+		return _damageType;
+	}
 }

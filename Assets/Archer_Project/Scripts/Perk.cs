@@ -12,7 +12,7 @@ public class Perk : ScriptableObject
 	[SerializeField] protected bool isArrowEffect;
 	[SerializeField] protected float chanceToProke;
 	protected int perkLVL = 1;
-
+    public List<PerkEffect> Effects { get; protected set; }
 	public int PerkLVL => perkLVL;
 	public Sprite PerkIcon => _perkIcon;
 	public String PerkName => _perkName;
@@ -59,7 +59,8 @@ public class Perk : ScriptableObject
 	{
 	}
 
-	public virtual void SetData(Perk _basePerk)
+	public virtual void SetEffects()
 	{
 	}
+	
 }
