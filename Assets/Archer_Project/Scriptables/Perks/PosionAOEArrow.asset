@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ae7a803ed17e74b943bfaec71bd846, type: 3}
-  m_Name: FireArrowAOE
+  m_Name: PosionAOEArrow
   m_EditorClassIdentifier: 
-  _perkIcon: {fileID: 21300000, guid: 2772f252fa9d9ce488b0bf59290a11b4, type: 3}
-  _perkName: Fire Arrow (AOE)
-  _perkDescription: On hit arrow makes fire damage area
+  _perkIcon: {fileID: 21300000, guid: eac3e2cd2f3070a4cb2521c534e1964f, type: 3}
+  _perkName: Poison Arrow AOE
+  _perkDescription: Make poison cloud on hit
   isArrowEffect: 1
-  chanceToProke: 50
+  chanceToProke: 25
   aoe: 1
   radius: 2.5
   lifeTime: 5
-  areaObject: {fileID: 7798049738316244828, guid: 70ece4f92af292e48b1a33115d6ca2ea, type: 3}
+  areaObject: {fileID: 1803903649945880929, guid: 71fa44f16709dea4290f25228a02eeaf, type: 3}
   _perkEffects:
-  - {fileID: 11400000, guid: fb03cfc8d0eef2f4e9ec5737860b4165, type: 2}
+  - {fileID: 11400000, guid: a565f1f6369075b49a4b0c982ad85578, type: 2}

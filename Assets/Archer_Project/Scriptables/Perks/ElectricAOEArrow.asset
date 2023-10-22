@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ae7a803ed17e74b943bfaec71bd846, type: 3}
-  m_Name: FireArrowAOE
+  m_Name: ElectricAOEArrow
   m_EditorClassIdentifier: 
-  _perkIcon: {fileID: 21300000, guid: 2772f252fa9d9ce488b0bf59290a11b4, type: 3}
-  _perkName: Fire Arrow (AOE)
-  _perkDescription: On hit arrow makes fire damage area
+  _perkIcon: {fileID: 21300000, guid: 2456dd2824f5ec540830760922f5bac6, type: 3}
+  _perkName: Storm Arrow AOE
+  _perkDescription: Deal electric damage in radius
   isArrowEffect: 1
-  chanceToProke: 50
+  chanceToProke: 25
   aoe: 1
   radius: 2.5
-  lifeTime: 5
-  areaObject: {fileID: 7798049738316244828, guid: 70ece4f92af292e48b1a33115d6ca2ea, type: 3}
+  lifeTime: 0.5
+  areaObject: {fileID: 4254667596067668958, guid: 9bc0caacc3db075439bc571fd475d0ba, type: 3}
   _perkEffects:
-  - {fileID: 11400000, guid: fb03cfc8d0eef2f4e9ec5737860b4165, type: 2}
+  - {fileID: 11400000, guid: 666633bb9807e4947964441dd2d9435e, type: 2}

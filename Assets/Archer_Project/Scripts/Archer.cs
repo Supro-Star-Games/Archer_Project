@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class Archer : MonoBehaviour
@@ -55,7 +52,7 @@ public class Archer : MonoBehaviour
 	private Vector3 _direction;
 	private Vector3 _directionXZ;
 	private Animator _animator;
-	private bool isShooted;
+	private float _lastShootTime;
 
 	private List<Perk> _applyedPerks = new List<Perk>();
 
@@ -94,11 +91,16 @@ public class Archer : MonoBehaviour
 			GameManager.PauseGame();
 		}
 
-		if (IsPulling && isShooted)
+
+		if (IsPulling)
 		{
-			StopCoroutine(PullBowString());
-			IsPulling = false;
-			_animator.SetBool("IsPulling", false);
+			_animator.SetBool("IsPulling", true);
+			_lastShootTime += Time.deltaTime;
+			if (_lastShootTime >= _attackSpeed)
+			{
+				IsPulling = false;
+				_lastShootTime = 0f;
+			}
 		}
 	}
 
@@ -133,9 +135,8 @@ public class Archer : MonoBehaviour
 
 	public void RandomizePerks()
 	{
-		isShooted = false;
+		IsPulling = true;
 		currentProjectileIndex = 0;
-		StartCoroutine(PullBowString());
 		List<Perk> _successedPerks = new List<Perk>();
 		foreach (var _perk in _learnedActivePerks)
 		{
@@ -227,10 +228,13 @@ public class Archer : MonoBehaviour
 
 	public void Shot(Vector3[] _points)
 	{
-		isShooted = true;
 		if (IsPulling)
 		{
+			_animator.SetBool("IsPulling", false);
+			RemovePerks();
 			ArrowShoted?.Invoke();
+			IsPulling = false;
+			_lastShootTime = 0f;
 			return;
 		}
 
@@ -347,14 +351,5 @@ public class Archer : MonoBehaviour
 				_poisonDamage += _percent;
 				break;
 		}
-	}
-
-	private IEnumerator PullBowString()
-	{
-		IsPulling = true;
-		_animator.SetBool("IsPulling", true);
-		yield return new WaitForSeconds(_attackSpeed);
-		IsPulling = false;
-		yield break;
 	}
 }

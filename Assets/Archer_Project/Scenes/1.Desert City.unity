@@ -14785,6 +14785,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7113770318981959588, guid: 3b0fc87fd5f21c14bb5c1dca48140043, type: 3}
+      propertyPath: _learnedActivePerks.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113770318981959588, guid: 3b0fc87fd5f21c14bb5c1dca48140043, type: 3}
+      propertyPath: _learnedActivePerks.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d7256d21b4b8e44086a3746fb8fd94d, type: 2}
+    - target: {fileID: 7113770318981959588, guid: 3b0fc87fd5f21c14bb5c1dca48140043, type: 3}
+      propertyPath: _learnedActivePerks.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 775fa5c98eae6a64cbda42534dcb1c3a, type: 2}
+    - target: {fileID: 7113770318981959588, guid: 3b0fc87fd5f21c14bb5c1dca48140043, type: 3}
+      propertyPath: _learnedActivePerks.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: c2361f28af9bc6945b918f958166081d, type: 2}
+    - target: {fileID: 7113770318981959588, guid: 3b0fc87fd5f21c14bb5c1dca48140043, type: 3}
+      propertyPath: _learnedActivePerks.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 74e9a4263c5a4a94eb65d0afdff97500, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
