@@ -18,8 +18,10 @@ GameObject:
   - component: {fileID: 6232552678985171670}
   - component: {fileID: 386357899556775985}
   - component: {fileID: -8633210599927499534}
+  - component: {fileID: -2681991568790875481}
   - component: {fileID: -2345559301809928041}
   - component: {fileID: -5209771268069374933}
+  - component: {fileID: 3183521442410467233}
   m_Layer: 6
   m_Name: BaseSkeleton01_Enemy
   m_TagString: Untagged
@@ -173,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: -2345559301809928041}
+  - {fileID: 3183521442410467233}
   _velocity: 3
 --- !u!114 &386357899556775985
 MonoBehaviour:
@@ -188,6 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: -5209771268069374933}
+  - {fileID: 3183521442410467233}
   _velocity: 3
 --- !u!114 &-8633210599927499534
 MonoBehaviour:
@@ -201,9 +205,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d684310df43c7446bf39d7b716c98dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _transitions: []
+  _transitions:
+  - {fileID: 3183521442410467233}
   _damage: 5
   _attackDelay: 2
+--- !u!114 &-2681991568790875481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207004995185772505}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57bb3201a2518c740835214c12a37050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transitions: []
+  timeToDespawn: 10
 --- !u!114 &-2345559301809928041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +251,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetState: {fileID: -8633210599927499534}
+--- !u!114 &3183521442410467233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207004995185772505}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dc496939ee48c3419ee43aafe70d070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetState: {fileID: -2681991568790875481}
 --- !u!1001 &8688507816652211069
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -128,8 +128,6 @@ public class Enemy : MonoBehaviour
 	{
 		if (!isDead)
 		{
-			//	Move();
-			//	Attack();
 			if (currentHP <= 0)
 			{
 				Death();
@@ -304,9 +302,9 @@ public class Enemy : MonoBehaviour
 
 	public void Death()
 	{
+		Debug.Log("OnDeath");
 		OnEnemyDeath?.Invoke(this);
 		_archer.TakeExperience(expForKill);
-		Destroy(gameObject, 0.2f);
 		_spawner.CheckWinCondition();
 		isDead = true;
 	}

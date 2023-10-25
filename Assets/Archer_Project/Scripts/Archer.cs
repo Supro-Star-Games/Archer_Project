@@ -65,7 +65,7 @@ public class Archer : MonoBehaviour
 
 	public bool IsPulling { get; set; }
 
-
+	public bool StringPulling { get; set; }
 	public float AttackSpeed => _attackSpeed;
 
 	private void Awake()
@@ -94,6 +94,7 @@ public class Archer : MonoBehaviour
 
 		if (IsPulling)
 		{
+			StringPulling = true;
 			_animator.SetBool("IsPulling", true);
 			_lastShootTime += Time.deltaTime;
 			if (_lastShootTime >= _attackSpeed)
@@ -235,6 +236,7 @@ public class Archer : MonoBehaviour
 			ArrowShoted?.Invoke();
 			IsPulling = false;
 			_lastShootTime = 0f;
+			StringPulling = false;
 			return;
 		}
 
@@ -243,6 +245,7 @@ public class Archer : MonoBehaviour
 		newProjectile.SetArrow(HandleStats());
 		newProjectile.SetPoints(_points);
 		RemovePerks();
+		StringPulling = false;
 		ArrowShoted?.Invoke();
 		_animator.SetBool("IsPulling", false);
 		_animator.SetTrigger("Shot");
