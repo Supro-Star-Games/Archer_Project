@@ -53,6 +53,7 @@ public class Archer : MonoBehaviour
 	private Vector3 _directionXZ;
 	private Animator _animator;
 	private float _lastShootTime;
+	private Arrow _newProjectile;
 
 	private List<Perk> _applyedPerks = new List<Perk>();
 
@@ -102,6 +103,15 @@ public class Archer : MonoBehaviour
 				IsPulling = false;
 				_lastShootTime = 0f;
 			}
+		}
+
+		if (StringPulling)
+		{
+			_newProjectile.transform.position = _fireTransform.position;
+			Vector3 _arrowDirectionXZ = new Vector3(0, _fireTransform.eulerAngles.y, 0);
+
+			//	_newProjectile.transform.rotation = _fireTransform.rotation;
+			_newProjectile.transform.rotation = Quaternion.Euler(_arrowDirectionXZ);
 		}
 	}
 
@@ -194,7 +204,8 @@ public class Archer : MonoBehaviour
 			}
 		}
 
-
+		_newProjectile = Instantiate(_projectiles[currentProjectileIndex], _fireTransform.position, _fireTransform.rotation);
+		_newProjectile.enabled = false;
 		PerksIsApplyed?.Invoke(_applyedPerks);
 	}
 
@@ -237,13 +248,15 @@ public class Archer : MonoBehaviour
 			IsPulling = false;
 			_lastShootTime = 0f;
 			StringPulling = false;
+			Destroy(_newProjectile.gameObject);
 			return;
 		}
 
-		Arrow newProjectile = Instantiate(_projectiles[currentProjectileIndex], _fireTransform.position, _fireTransform.rotation);
-		newProjectile._perks.AddRange(_applyedPerks);
-		newProjectile.SetArrow(HandleStats());
-		newProjectile.SetPoints(_points);
+		//	Arrow newProjectile = Instantiate(_projectiles[currentProjectileIndex], _fireTransform.position, _fireTransform.rotation);
+		_newProjectile.enabled = true;
+		_newProjectile._perks.AddRange(_applyedPerks);
+		_newProjectile.SetArrow(HandleStats());
+		_newProjectile.SetPoints(_points);
 		RemovePerks();
 		StringPulling = false;
 		ArrowShoted?.Invoke();
