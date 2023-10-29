@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody))]
 public class DeathState : State
@@ -28,6 +29,7 @@ public class DeathState : State
 		_animator.SetBool("IsRunning", false);
 		_animator.SetBool("IsAttacking", false);
 		_animator.SetBool("IsDying", true);
+		_animator.SetFloat("Random", (float)Random.Range(0, 4));
 		_rb.isKinematic = true;
 	}
 
