@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 	public static bool IsPaused;
-	
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -22,19 +22,20 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-		
 	}
+
 	public static Perk CopyScriptable(Perk copyedPerk)
 	{
 		Perk copiedObject = ScriptableObject.CreateInstance<Perk>();
 		copiedObject = copyedPerk;
 
-		AssetDatabase.CreateAsset(copiedObject, "Assets/CopiedScriptableObject.asset");
-		 AssetDatabase.SaveAssets();
+		//	AssetDatabase.CreateAsset(copiedObject, "Assets/CopiedScriptableObject.asset");
+		//	 AssetDatabase.SaveAssets();
 
 		return copiedObject;
 	}
-	public static int GenerateRandomNumber(int minValue, int maxValue, List<int> uniqueNumbers )
+
+	public static int GenerateRandomNumber(int minValue, int maxValue, List<int> uniqueNumbers)
 	{
 		if (uniqueNumbers.Count >= (maxValue - minValue + 1))
 		{
@@ -47,9 +48,10 @@ public class GameManager : MonoBehaviour
 		{
 			randomNum = Random.Range(minValue, maxValue + 1);
 		} while (uniqueNumbers.Contains(randomNum));
-		
+
 		return randomNum;
 	}
+
 	public static void RestartLevel()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
