@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+	[SerializeField] private int _appFPS;
 	public static GameManager Instance;
 	public static bool IsPaused;
 
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
+
+		Application.targetFrameRate = _appFPS;
 	}
 
 	public static Perk CopyScriptable(Perk copyedPerk)
