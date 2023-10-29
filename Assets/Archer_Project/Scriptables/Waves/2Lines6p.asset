@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _points: 6
   _enemies:
-  - {fileID: 3328224230710094731, guid: df013f9725e712f459c57c719652e077, type: 3}
-  - {fileID: 3328224230710094731, guid: df013f9725e712f459c57c719652e077, type: 3}
-  - {fileID: 4576409392407409632, guid: 66a7e84b0ef54744fafaa0949fcf4f04, type: 3}
+  - {fileID: 1714208332016960026, guid: 77b602e4fd115304886137e3afb29ef3, type: 3}
+  - {fileID: 4098433325312456236, guid: 7be1d213ab27d214dbb83ca788f5a05f, type: 3}
+  - {fileID: 4329016118788040749, guid: 3d86d0ebec5fff14ca0430e78800bbb9, type: 3}
   _lines: 2
