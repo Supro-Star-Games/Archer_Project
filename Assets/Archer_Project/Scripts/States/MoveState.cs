@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -22,7 +18,7 @@ public class MoveState : State
 	private void Start()
 	{
 		_movePosition = _enemy.CurrentPoint;
-		_animator.SetBool("IsRunning",true);
+		_animator.SetBool("IsRunning", true);
 	}
 
 	void FixedUpdate()
@@ -35,6 +31,6 @@ public class MoveState : State
 
 	private void OnDisable()
 	{
-		_animator.SetBool(0,false);
+		_animator.SetBool("IsRunning", false);
 	}
 }

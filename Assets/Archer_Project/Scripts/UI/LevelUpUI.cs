@@ -36,14 +36,14 @@ public class LevelUpUI : MonoBehaviour
 	}
 
 	private void Awake()
-	{
-		_archer.ArhcerLVLUp += Show;
+	{ 
+	//	_archer.ArhcerLVLUp += Show;
 		gameObject.SetActive(false);
 	}
 
 	private void OnDestroy()
 	{
-		_archer.ArhcerLVLUp -= Show;
+	//	_archer.ArhcerLVLUp -= Show;
 	}
 
 	public void SetupLearnedPerks()

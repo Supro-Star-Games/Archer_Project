@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
 	[SerializeField] private bool isRangeEnemy;
 	[SerializeField] private int spawnCost;
 	[SerializeField] private float headDamageMult;
-	[SerializeField] private float expForKill;
+	[SerializeField] private int expForKill;
 
 	[Header("Protective effects")] [SerializeField]
 	private float magickShield;
@@ -54,6 +54,8 @@ public class Enemy : MonoBehaviour
 
 	public event UnityAction<Enemy> OnEnemyDeath;
 	public event UnityAction<float> OnDamage;
+
+	public bool IsDead => isDead;
 
 
 	public Transform MovePoint
@@ -302,9 +304,9 @@ public class Enemy : MonoBehaviour
 
 	public void Death()
 	{
-		Debug.Log("OnDeath");
 		OnEnemyDeath?.Invoke(this);
-		_archer.TakeExperience(expForKill);
+		//_archer.TakeExperience(expForKill);
+		PlayerCurrencies.Instance.AddEXP(expForKill);
 		_spawner.CheckWinCondition();
 		isDead = true;
 	}
