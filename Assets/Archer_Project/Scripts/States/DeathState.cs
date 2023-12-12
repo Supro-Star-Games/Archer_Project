@@ -13,11 +13,13 @@ public class DeathState : State
 	private float time;
 	private Rigidbody _rb;
 	private Animator _animator;
+	private Collider _capule;
 
 	private void Awake()
 	{
 		_rb = GetComponent<Rigidbody>();
 		_animator = GetComponentInChildren<Animator>();
+		_capule = GetComponent<Collider>();
 	}
 
 	private void Start()
@@ -31,6 +33,7 @@ public class DeathState : State
 		_animator.SetBool("IsDying", true);
 		_animator.SetFloat("Random", (float)Random.Range(0, 4));
 		_rb.isKinematic = true;
+		//	_capule.isTrigger = true;
 	}
 
 	private void Update()

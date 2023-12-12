@@ -26,6 +26,7 @@ public class ProjectoryRenderer : MonoBehaviour
 
 	void Update()
 	{
+		/*
 		if (Input.GetMouseButton(0) && !GameManager.IsPaused)
 		{
 			Ray mouseRay = Camera.main.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y + mouseYOffset));
@@ -47,7 +48,7 @@ public class ProjectoryRenderer : MonoBehaviour
 					_lineRenderer.enabled = false;
 					return;
 				}
-
+				
 				_archer.RotateArcher(TargetPoint);
 				_archer.CalcuateVelocity();
 
@@ -66,12 +67,12 @@ public class ProjectoryRenderer : MonoBehaviour
 					isPerksApplyed = true;
 				}
 			}
+			
 		}
 
-
+        
 		if (Input.GetMouseButtonUp(0) && !GameManager.IsPaused)
 		{
-			
 			if (distanceToArcher.magnitude < _disabledRadius)
 			{
 				_lineRenderer.enabled = false;
@@ -89,5 +90,6 @@ public class ProjectoryRenderer : MonoBehaviour
 			_lineRenderer.enabled = false;
 			isPerksApplyed = false;
 		}
+	*/
 	}
 }

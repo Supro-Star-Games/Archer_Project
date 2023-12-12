@@ -44,6 +44,7 @@ public class Archer : MonoBehaviour
 	[SerializeField] private List<Perk> _learnedActivePerks;
 	[SerializeField] private List<Perk> _leranedPassivePerks;
 
+	private PlayerStats _playerStats;
 	private int currentProjectileIndex;
 	private float _currentHP;
 	private float _currentXP;
@@ -54,6 +55,10 @@ public class Archer : MonoBehaviour
 	private Animator _animator;
 	private float _lastShootTime;
 	private Arrow _newProjectile;
+	private Enemy _currentEnemy;
+	private float _timeFromAttack;
+	private List<Enemy> _enemiesInRange = new List<Enemy>();
+
 
 	private List<Perk> _applyedPerks = new List<Perk>();
 
@@ -67,17 +72,22 @@ public class Archer : MonoBehaviour
 	public bool IsPulling { get; set; }
 
 	public bool StringPulling { get; set; }
-	public float AttackSpeed => _attackSpeed;
+
+	public float CurrentHp => _currentHP;
+	public float AttackSpeed => _playerStats.Stats.First(s => s.StatType == PlayerStats.StatType.AttackSpeed).Value;
+	
+	public float HeathPoints => _playerStats.Stats.First(s => s.StatType == PlayerStats.StatType.HitPoints).Value;
 
 	private void Awake()
 	{
 		_animator = GetComponentInChildren<Animator>();
+		_playerStats = GetComponent<PlayerStats>();
 	}
 
 	private void Start()
 	{
 		ApplyPassivePerks();
-		_currentHP = _healthPoints;
+		_currentHP = HeathPoints;
 	}
 
 	private void Update()
@@ -89,19 +99,26 @@ public class Archer : MonoBehaviour
 			_currentLVL += 1f;
 			_currentXP = 0f;
 			ArhcerLVLUp?.Invoke();
-			GameManager.PauseGame();
+			//	GameManager.PauseGame();
 		}
 
+		if (_currentEnemy == null)
+		{
+			SetCurrentEnemy();
+		}
+		else
+		{
+			AttackCurrentEnemy();
+		}
 
 		if (IsPulling)
 		{
-			StringPulling = true;
+			//	StringPulling = true;
 			_animator.SetBool("IsPulling", true);
-			_lastShootTime += Time.deltaTime;
-			if (_lastShootTime >= _attackSpeed)
+			if (_lastShootTime >= AttackSpeed)
 			{
 				IsPulling = false;
-				_lastShootTime = 0f;
+				//	_lastShootTime = 0f;
 			}
 		}
 
@@ -110,11 +127,44 @@ public class Archer : MonoBehaviour
 			_newProjectile.transform.position = _fireTransform.position;
 			Vector3 _arrowDirectionXZ = new Vector3(0, _fireTransform.eulerAngles.y, 0);
 
-			//	_newProjectile.transform.rotation = _fireTransform.rotation;
+			_newProjectile.transform.rotation = _fireTransform.rotation;
 			_newProjectile.transform.rotation = Quaternion.Euler(_arrowDirectionXZ);
 		}
 	}
 
+	private void SetCurrentEnemy()
+	{
+		if (_enemiesInRange.Count > 0)
+		{
+			int _randomEnemy = Random.Range(0, _enemiesInRange.Count);
+			_currentEnemy = _enemiesInRange[_randomEnemy];
+		}
+	}
+
+	private void AttackCurrentEnemy()
+	{
+		_lastShootTime += Time.deltaTime;
+		if (_lastShootTime < AttackSpeed)
+		{
+			IsPulling = true;
+			return;
+		}
+
+		if (!_currentEnemy.IsDead)
+		{
+			RotateArcher(_currentEnemy.transform.position);
+			_newProjectile = Instantiate(_projectiles[0], _fireTransform.position, _fireTransform.rotation);
+			_newProjectile.SetArrow(HandleStats());
+			Vector3[] _points = new[] { _currentEnemy.transform.position };
+			_newProjectile.SetPoints(_points);
+			_animator.SetTrigger("Shot");
+			_lastShootTime = 0f;
+		}
+		else
+		{
+			_currentEnemy = null;
+		}
+	}
 
 	public void RotateArcher(Vector3 _mousePos)
 	{
@@ -132,10 +182,10 @@ public class Archer : MonoBehaviour
 	public Dictionary<string, float> HandleStats()
 	{
 		Dictionary<string, float> _stats = new Dictionary<string, float>();
-		_stats.Add("MaxHP", _healthPoints);
-		_stats.Add("AtkSpeed", _attackSpeed);
+		//	_stats.Add("MaxHP", _playerStats.Stats.First(s => s.StatType == PassivePerk.BonusStatType.HitPoints).Value);
+		//	_stats.Add("AtkSpeed", _playerStats.Stats.First(s => s.StatType == PassivePerk.BonusStatType.AttackSpeed).Value);
 		_stats.Add("ArrowSpeed", _arrowSpeed);
-		_stats.Add("phDamage", _physicsDamage);
+		_stats.Add("phDamage", _playerStats.Stats.First(s => s.StatType == PlayerStats.StatType.PhysicsDamage).Value);
 		_stats.Add("fDamage", _fireDamage);
 		_stats.Add("iDamage", _iceDamage);
 		_stats.Add("pDamage", _poisonDamage);
@@ -266,7 +316,7 @@ public class Archer : MonoBehaviour
 
 	public void TakeDamage(float damage)
 	{
-		ArcherDamaged?.Invoke(damage / (_healthPoints / 100f));
+		ArcherDamaged?.Invoke(damage / (HeathPoints / 100f));
 		_currentHP -= damage;
 		if (_currentHP <= 0)
 		{
@@ -274,9 +324,10 @@ public class Archer : MonoBehaviour
 		}
 	}
 
-	public void TakeExperience(float _exp)
+	public void TakeExperience(int _exp)
 	{
-		_currentXP += _exp;
+		PlayerCurrencies.Instance.AddEXP(_exp);
+		//	_currentXP += _exp;
 		float newExp = _exp / (_XPForLevel / 100f);
 		ExperienceTaked?.Invoke(newExp);
 	}
@@ -317,12 +368,21 @@ public class Archer : MonoBehaviour
 		return _allPerks;
 	}
 
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.TryGetComponent(out Enemy _enemy))
+		{
+			_enemiesInRange.Add(_enemy);
+		}
+	}
+
+
+	/*
 	public void TakePassivePerk(PassivePerk.BonusStatType _type, float _percent)
 	{
 		switch (_type)
 		{
 			case PassivePerk.BonusStatType.HitPoints:
-				Debug.Log("TakeHP");
 				_healthPoints += (_healthPoints / 100f) * _percent;
 				break;
 			case PassivePerk.BonusStatType.ArrowSpeed:
@@ -368,4 +428,5 @@ public class Archer : MonoBehaviour
 				break;
 		}
 	}
+	*/
 }

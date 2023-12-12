@@ -10,6 +10,7 @@ public class Arrow : MonoBehaviour
 	private int _currentPoint;
 	private Rigidbody _rb;
 	private bool isHit;
+	private Enemy _hittedEnemy;
 
 	public float BaseDamage = 20f;
 
@@ -28,7 +29,13 @@ public class Arrow : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		/*
 		if (_currentPoint == _movePoints.Count - 1 || isHit)
+		{
+			return;
+		}
+		*/
+		if (isHit)
 		{
 			return;
 		}
@@ -43,13 +50,13 @@ public class Arrow : MonoBehaviour
 		float distance = Vector3.Distance(_movePoints[_currentPoint], transform.position);
 		if (distance < 0.5f)
 		{
-			_currentPoint++;
+			//	_currentPoint++;
 		}
 	}
 
-	public void SetArrow(Dictionary<string,float> _bonuses)
+	public void SetArrow(Dictionary<string, float> _bonuses)
 	{
-		BaseDamage += BaseDamage * (_bonuses["phDamage"] / 100);
+		BaseDamage = _bonuses["phDamage"];
 		_damageBonus.Add(_bonuses["fDamage"]);
 		_damageBonus.Add(_bonuses["iDamage"]);
 		_damageBonus.Add(_bonuses["pDamage"]);
@@ -67,6 +74,12 @@ public class Arrow : MonoBehaviour
 	{
 		if (other.TryGetComponent<Enemy>(out Enemy _enemy))
 		{
+			if (_enemy.IsDead)
+			{
+				return;
+			}
+
+			_hittedEnemy = _enemy;
 			_enemy.TakeDamage(BaseDamage);
 			foreach (var perk in _perks)
 			{
@@ -79,7 +92,8 @@ public class Arrow : MonoBehaviour
 				perk.ActivateEffects(_enemy);
 			}
 
-			SetParent(_enemy.transform);
+			Destroy(gameObject);
+			//	SetParent(_enemy.transform);
 		}
 		else
 		{
@@ -94,6 +108,7 @@ public class Arrow : MonoBehaviour
 
 			SetParent(other.transform);
 		}
+
 		_perks.Clear();
 		_movePoints.Clear();
 	}

@@ -40,7 +40,7 @@ public class GameplayMenuUI : MonoBehaviour
 	public void Close()
 	{
 		gameObject.SetActive(false);
-		GameManager.PauseGame();
+	//	GameManager.PauseGame();
 	}
 
 	private void OnDestroy()
@@ -62,7 +62,7 @@ public class GameplayMenuUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		GameManager.PauseGame();
+	//	GameManager.PauseGame();
 		SetupLearnedPerks();
 	}
 

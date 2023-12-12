@@ -17,9 +17,12 @@ MonoBehaviour:
   _perkDescription: Raise your max HP
   isArrowEffect: 0
   chanceToProke: 0
+  _basePerkCost: 0
   aoe: 0
   radius: 0
   lifeTime: 0
   areaObject: {fileID: 0}
-  bonusInPercents: 25
+  bonusInPercents: 20
   _bonusStatType: 0
+  _baseStatType: 1
+  _priceGrowPercent: 0

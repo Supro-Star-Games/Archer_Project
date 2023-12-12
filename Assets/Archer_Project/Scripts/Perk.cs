@@ -11,12 +11,15 @@ public class Perk : ScriptableObject
 	[SerializeField] private String _perkDescription;
 	[SerializeField] protected bool isArrowEffect;
 	[SerializeField] protected float chanceToProke;
+	[SerializeField] protected int _basePerkCost;
 	protected int perkLVL = 1;
     public List<PerkEffect> Effects { get; protected set; }
 	public int PerkLVL => perkLVL;
 	public Sprite PerkIcon => _perkIcon;
 	public String PerkName => _perkName;
 	public String PerkDescription => _perkDescription;
+
+	protected int CurrentPrice;
 
 
 	[Header("AOE Settings")] [SerializeField]

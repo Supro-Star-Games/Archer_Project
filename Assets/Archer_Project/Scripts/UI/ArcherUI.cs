@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class ArcherUI : MonoBehaviour
 	[SerializeField] private Slider _XPSlider;
 	[SerializeField] private GameObject _shotUI;
 	[SerializeField] private Image _shotImage;
+	[SerializeField] private TextMeshProUGUI _hpValue;
 
 
 	private Archer _archer;
@@ -19,6 +21,7 @@ public class ArcherUI : MonoBehaviour
 	{
 		_archer = FindObjectOfType<Archer>();
 		_XPSlider.value = 0f;
+		_hpValue.text = _archer.HeathPoints + "/" + _archer.HeathPoints;
 	}
 
 	private void OnEnable()
@@ -64,6 +67,15 @@ public class ArcherUI : MonoBehaviour
 	public void TakeDamage(float _damage)
 	{
 		_HPSlider.value -= _damage / 100f;
+		_hpValue.text = _archer.CurrentHp + "/" + _archer.HeathPoints;
+	}
+
+	public void ChangeStatsView(PlayerStats.Stat _stat)
+	{
+		if (_stat.StatType == PlayerStats.StatType.HitPoints)
+		{
+			_hpValue.text = _stat.Value + "/" + _archer.HeathPoints;
+		}
 	}
 
 	public void TakeXP(float exp)
