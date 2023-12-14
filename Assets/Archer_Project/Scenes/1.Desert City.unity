@@ -35386,7 +35386,7 @@ MonoBehaviour:
   _stats:
   - _name: Damage
     _cost: 5
-    _value: 4
+    _value: 25
     _costIncrease: 30
     _valueIncrease: 4
     _menuType: 0
@@ -42525,8 +42525,12 @@ PrefabInstance:
       value: 607.41
       objectReference: {fileID: 0}
     - target: {fileID: 1580380481221333851, guid: 1962925f7071618438c15bb8c327d931, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.00023884958
+      objectReference: {fileID: 0}
+    - target: {fileID: 1580380481221333851, guid: 1962925f7071618438c15bb8c327d931, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00004196167
+      value: -0.000699606
       objectReference: {fileID: 0}
     - target: {fileID: 1708998576678023132, guid: 1962925f7071618438c15bb8c327d931, type: 3}
       propertyPath: m_Layer
@@ -42915,6 +42919,10 @@ PrefabInstance:
     - target: {fileID: 4482220489492931767, guid: 1962925f7071618438c15bb8c327d931, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4503246517024013998, guid: 1962925f7071618438c15bb8c327d931, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0008525998
       objectReference: {fileID: 0}
     - target: {fileID: 4503246517024013998, guid: 1962925f7071618438c15bb8c327d931, type: 3}
       propertyPath: m_AnchoredPosition.y

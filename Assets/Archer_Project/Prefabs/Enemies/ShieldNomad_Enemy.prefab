@@ -455,7 +455,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6851991597902321635, guid: a3a83b49be16d384eb06199656ae3d61, type: 3}
       propertyPath: physicsProtection
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9053414403351738391, guid: a3a83b49be16d384eb06199656ae3d61, type: 3}
       propertyPath: m_Name
