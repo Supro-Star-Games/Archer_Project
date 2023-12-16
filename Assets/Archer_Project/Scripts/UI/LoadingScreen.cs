@@ -15,7 +15,7 @@ public class LoadingScreen : MonoBehaviour
     }
 
     public IEnumerator LoadScene_Coroutine(int index)
-    {
+    {        
         progressSlider.value = 0;
         loaderUI.SetActive(true);
 
@@ -23,10 +23,16 @@ public class LoadingScreen : MonoBehaviour
         asyncOperation.allowSceneActivation = false;
         float progress = 0;
 
+        
+
         while (!asyncOperation.isDone) 
         {
+            Debug.Log(asyncOperation.isDone);
+
             progress = Mathf.MoveTowards(progress, asyncOperation.progress, Time.deltaTime);
             progressSlider.value = progress;
+
+            Debug.Log(" Progress !!!" + progress);
             
             if(progress >= 0.9f)
             {
